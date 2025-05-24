@@ -25,7 +25,7 @@
                             placeholder="Password" id="inputChoosePassword" wire:model="password"
                             autocomplete="password">
                         <a href="javascript:void(0);" class="input-group-text bg-transparent new_input_margin"
-                            onclick="togglePassword()">
+                            wire:ignore @click="togglePassword()">
                             <i class='bi bi-eye-slash' id="password-icon"></i>
                         </a>
                     </div>
@@ -56,3 +56,22 @@
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        window.togglePassword = function() {
+            const passwordInput = document.getElementById("inputChoosePassword");
+            const passwordIcon = document.getElementById("password-icon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordIcon.classList.remove("bi-eye-slash");
+                passwordIcon.classList.add("bi-eye");
+            } else {
+                passwordInput.type = "password";
+                passwordIcon.classList.remove("bi-eye");
+                passwordIcon.classList.add("bi-eye-slash");
+            }
+        };
+    </script>
+@endscript

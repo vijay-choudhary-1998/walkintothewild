@@ -12,7 +12,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware(['auth.guard:admin', 'admin'])->group(function () {
-        Route::get('dashboard', Dashboard::class)->name('dashboard');
+        Route::get('/dashboard', Dashboard::class)->name('dashboard');
         Route::get('logout', [LoginComponent::class, 'logout'])->name('logout');
     });
 });

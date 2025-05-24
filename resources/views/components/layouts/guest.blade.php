@@ -18,23 +18,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
     </script>
-
-    <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById("inputChoosePassword");
-            const passwordIcon = document.getElementById("password-icon");
-
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                passwordIcon.classList.remove("bi-eye-slash");
-                passwordIcon.classList.add("bi-eye");
-            } else {
-                passwordInput.type = "password";
-                passwordIcon.classList.remove("bi-eye");
-                passwordIcon.classList.add("bi-eye-slash");
-            }
-        }
-    </script>
 </body>
 
 </html>

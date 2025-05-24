@@ -56,3 +56,22 @@
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        window.togglePassword = function() {
+            const passwordInput = document.getElementById("inputChoosePassword");
+            const passwordIcon = document.getElementById("password-icon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordIcon.classList.remove("bi-eye-slash");
+                passwordIcon.classList.add("bi-eye");
+            } else {
+                passwordInput.type = "password";
+                passwordIcon.classList.remove("bi-eye");
+                passwordIcon.classList.add("bi-eye-slash");
+            }
+        };
+    </script>
+@endscript
