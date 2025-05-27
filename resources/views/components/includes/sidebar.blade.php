@@ -21,24 +21,10 @@
                           <!--navigation-->
                           <ul class="metismenu mm-show" id="menu">
                               <li>
-                                  <a href="{{ route('admin.dashboard') }}">
+                                  <a href="{{ route('dashboard') }}">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Dashboard</div>
-                                  </a>
-                              </li>
-                              <li>
-                                  <a href="{{ route('admin.park') }}">
-                                      <div class="parent-icon"><i class="bx bx-home-circle"></i>
-                                      </div>
-                                      <div class="menu-title">Park</div>
-                                  </a>
-                              </li>
-                              <li>
-                                  <a href="{{ route('admin.wildlife') }}">
-                                      <div class="parent-icon"><i class="bx bx-home-circle"></i>
-                                      </div>
-                                      <div class="menu-title">WildLife</div>
                                   </a>
                               </li>
                           </ul>

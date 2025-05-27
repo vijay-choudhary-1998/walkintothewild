@@ -29,8 +29,8 @@
 
 <body>
     <div class="wrapper">
-        @include('components.includes.header')
-        @include('components.includes.sidebar')
+        @include('components.includes.admin-header')
+        @include('components.includes.admin-sidebar')
         <div class="page-wrapper">
             <div class="page-content">
                 {{ $slot }}
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    @include('components.includes.footer')
+    @include('components.includes.admin-footer')
 
     @livewireScripts
     <!---------------|| Js Files ||--------------->

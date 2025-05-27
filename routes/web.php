@@ -23,7 +23,7 @@ Route::middleware('guest:web')->group(function () {
     Route::get('/login', LoginComponent::class)->name('login');
     // Route::get('/register', Register::class)->name('register');
 });
-Route::middleware('auth:web')->group(function () {
+Route::middleware('auth.guard:web')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('logout', [LoginComponent::class, 'logout'])->name('logout');
 });

@@ -15,14 +15,16 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'user@gmail.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'user@gmail.com',
+        // ]);
 
-        Admin::factory()->create([
-            'name' => 'Test Admin',
-            'email' => 'admin@gmail.com',
-        ]);
+        // Admin::factory()->create([
+        //     'name' => 'Test Admin',
+        //     'email' => 'admin@gmail.com',
+        // ]);
+
+        $this->call(WildlifeSeeder::class);
     }
 }
