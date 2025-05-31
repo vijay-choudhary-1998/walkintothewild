@@ -15,6 +15,7 @@ class WildlifeCrud extends Component
 
     public $name, $species, $habitat, $description, $wildlife_id;
     public $isEditing = false;
+    public $showModal = false;
     public $modalTitle = 'Add Wildlife';
 
     protected $paginationTheme = 'bootstrap';
@@ -40,14 +41,14 @@ class WildlifeCrud extends Component
     public function openModal()
     {
         $this->resetFields();
-        $this->dispatch('show-form');
+         $this->showModal = true;
     }
 
     public function store()
     {
         $this->validate();
         Wildlife::create($this->only((new Wildlife)->getFillable()));
-        $this->dispatch('hide-form');
+        $this->showModal = false;
         $this->resetFields();
     }
 
@@ -60,7 +61,7 @@ class WildlifeCrud extends Component
         $this->wildlife_id = $wildlife->id;
         $this->isEditing = true;
         $this->modalTitle = 'Edit Wildlife';
-        $this->dispatch('show-form');
+        $this->showModal = true;
     }
 
     public function update()
@@ -68,7 +69,7 @@ class WildlifeCrud extends Component
         $this->validate();
         $wildlife = Wildlife::findOrFail($this->wildlife_id);
         $wildlife->update($this->only($wildlife->getFillable()));
-        $this->dispatch('hide-form');
+        $this->showModal = false;
         $this->resetFields();
     }
 
@@ -77,7 +78,8 @@ class WildlifeCrud extends Component
         Wildlife::destroy($id);
     }
 
-    public function updating(){
+    public function updating()
+    {
         $this->resetPage();
     }
 }

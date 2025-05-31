@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Park;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('components.layouts.admin-app')]
 class ParkCrud extends Component
@@ -19,6 +20,7 @@ class ParkCrud extends Component
     public $showModal = false;
 
     public $isEditing = false;
+    public $deleteId;
     public $modalTitle = 'Add Park';
 
     protected $paginationTheme = 'bootstrap';
@@ -61,7 +63,6 @@ class ParkCrud extends Component
     {
         $this->resetFields();
         $this->showModal = true;
-        // $this->dispatch('show-form');
     }
 
     public function store()
@@ -83,7 +84,6 @@ class ParkCrud extends Component
         $this->isEditing = true;
         $this->modalTitle = 'Edit Park';
         $this->showModal = true;
-        // $this->dispatch('show-form');
     }
 
     public function update()
@@ -95,13 +95,27 @@ class ParkCrud extends Component
         $park = Park::findOrFail($this->park_id);
         $park->update($this->only($park->getFillable()));
         $this->showModal = false;
-        // $this->dispatch('hide-form');
         $this->resetFields();
     }
-
-    public function delete($id)
+    public function confirmDelete($id)
     {
-        Park::destroy($id);
+        $this->deleteId = $id;
+        $this->dispatch('swal:confirm', [
+            'title' => 'Are you sure?',
+            'text' => 'This action cannot be undone.',
+            'icon' => 'warning',
+            'showCancelButton' => true,
+            'confirmButtonText' => 'Yes, delete it!',
+            'cancelButtonText' => 'Cancel',
+            'action' => 'delete'
+        ]);
+    }
+
+    #[On('delete')]
+    public function delete()
+    {
+        Park::destroy($this->deleteId);
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'Park deleted successfully!']);
     }
     public function updating()
     {

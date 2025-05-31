@@ -24,6 +24,11 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dark-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/semi-dark.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/header-colors.css') }}">
+    <style>
+        .modal {
+            overflow-y: auto !important;
+        }
+    </style>
     @livewireStyles
 </head>
 
@@ -61,6 +66,7 @@
     <script src="{{ asset('assets/js/index2.js') }}"></script>
 
     <script src="{{ asset('assets/js/pace.min.js') }}"></script>
+    @include('components.includes.sweet-alert')
 </body>
 
 </html>

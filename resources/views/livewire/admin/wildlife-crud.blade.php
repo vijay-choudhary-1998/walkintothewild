@@ -35,7 +35,7 @@
 
             {{ $wildlifes->links() }}
 
-            <!-- Modal -->
+            {{-- <!-- Modal -->
             <div class="modal fade" id="wildlifeModal" tabindex="-1" aria-labelledby="wildlifeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -86,11 +86,72 @@
                         </form>
                     </div>
                 </div>
+            </div> --}}
+
+            <!-- Modal -->
+            <div class="modal @if ($showModal) show @endif" tabindex="-1"
+                style="opacity:1; background-color:#0606068c; display:@if ($showModal) block @endif">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form wire:submit.prevent="{{ $isEditing ? 'update' : 'store' }}">
+                            <div class="modal-header">
+                                <h4 class="modal-title">{{ $modalTitle }}</h4>
+                                <button type="button" class="btn-close" wire:click="$set('showModal', false)"
+                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            wire:model.defer="name">
+                                        @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Species</label>
+                                        <input type="text"
+                                            class="form-control @error('species') is-invalid @enderror"
+                                            wire:model.defer="species">
+                                        @error('species')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Habitat</label>
+                                        <input type="text"
+                                            class="form-control @error('habitat') is-invalid @enderror"
+                                            wire:model.defer="habitat">
+                                        @error('habitat')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control @error('description') is-invalid @enderror" wire:model.defer="description"></textarea>
+                                        @error('description')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ $isEditing ? 'Update' : 'Save' }}
+                                    <i class="spinner-border spinner-border-sm" wire:loading></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary" wire:click="$set('showModal', false)"
+                                    data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
+{{-- 
 @script
     <script>
         window.addEventListener('show-form', () => {
@@ -101,4 +162,4 @@
             bootstrap.Modal.getInstance(document.getElementById('wildlifeModal')).hide();
         });
     </script>
-@endscript
+@endscript --}}

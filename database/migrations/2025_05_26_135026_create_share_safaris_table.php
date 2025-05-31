@@ -13,19 +13,18 @@ return new class extends Migration {
         Schema::create('share_safaris', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->unsignedBigInteger('park_id');
+            $table->unsignedBigInteger('safari_park_id');
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('no_of_safari');
-            $table->string('theme')->nullable();
-            $table->string('stay_category')->nullable(); // Correct spelling if needed
-            $table->decimal('min_price_pp', 10, 2);
-            $table->decimal('max_price_pp', 10, 2);
+            $table->unsignedBigInteger('visit_purpose_id');
+            $table->unsignedBigInteger('stay_category_id');
+            $table->integer('min_price_pp');
+            $table->integer('max_price_pp');
             $table->integer('total_seats');
-            $table->integer('share_seats');
-            $table->string('display_image')->nullable();
-            $table->integer('picture')->nullable(); // Consider using JSON if storing multiple
-            $table->integer('safari_plan')->nullable();
+            $table->string('share_seats');
+            $table->text('safari_plan');
+            $table->string('display_image');
             $table->timestamps();
         });
     }

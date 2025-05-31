@@ -8,19 +8,18 @@ class ShareSafari extends Model
 {
     protected $fillable = [
         'title',
-        'park_id',
+        'safari_park_id',
         'start_date',
         'end_date',
         'no_of_safari',
-        'theme',
-        'stay_categroy',
+        'visit_purpose_id',
+        'stay_category_id',
         'min_price_pp',
         'max_price_pp',
         'total_seats',
         'share_seats',
-        'display_image',
-        'picture',
         'safari_plan',
+        'display_image',
     ];
 
     public function park()
