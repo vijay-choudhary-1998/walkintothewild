@@ -15,35 +15,57 @@ class SiteSettingForm extends Component
     public $site_name, $site_email, $footer_text, $site_logo, $existing_logo;
 
     public $key = [], $value = [];
+    public $step = 0;
+    public $settings;
+
     public function mount()
     {
-        $setting = SiteSetting::pluck('value', 'key');
+        $this->settings = $settings = SiteSetting::pluck('value', 'key');
 
-        if ($setting) {
-            $this->key['site_name'] = $setting['site_name'] ?? '';
-            $this->key['site_email'] = $setting['site_email'] ?? '';
-            $this->key['footer_text'] = $setting['footer_text'] ?? '';
-            $this->key['existing_logo'] = $setting['site_logo'] ?? '';
+        if ($this->settings) {
+            $this->key['site_name'] = $settings['site_name'] ?? '';
+            $this->key['site_email'] = $settings['site_email'] ?? '';
+            $this->key['footer_text'] = $settings['footer_text'] ?? '';
+            $this->key['existing_logo'] = $settings['site_logo'] ?? '';
+        }
+    }
+    public function updatedStep($value)
+    {
+        if ($settings = $this->settings) {
+
+            $this->reset('key');
+
+            switch ($value) {
+                case 1:
+                    $this->key['about_us'] = $settings['about_us'] ?? '';
+                    break;
+                case 2:
+                    $this->key['term_and_condition'] = $settings['term_and_condition'] ?? '';
+                    break;
+
+                default:
+                    $this->key['site_name'] = $settings['site_name'] ?? '';
+                    $this->key['site_email'] = $settings['site_email'] ?? '';
+                    $this->key['footer_text'] = $settings['footer_text'] ?? '';
+                    $this->key['existing_logo'] = $settings['site_logo'] ?? '';
+                    break;
+            }
         }
     }
     public function save()
     {
-        $this->validate([
-            'key' => 'required|array',
-            'key.site_name' => 'required|string|max:255',
-            'key.site_email' => 'required|email|max:255',
-            'key.footer_text' => 'nullable|string',
-            'site_logo' => 'nullable|image|max:2048',
-        ]);
+        $this->validate($this->rules());
 
-        // dd($this->key);
+        if ($this->step == 0) {
 
-        $logoPath = $this->key['existing_logo'];
-        if ($this->site_logo) {
-            $logoPath = $this->site_logo->store('site-logos', 'public');
+            if (($this->site_logo)) {
+                $logoPath = $this->site_logo->store('uploads/site-logos', 'public_root');
+            } else {
+                $logoPath = $this->key['existing_logo'];
+            }
+
+            $this->key['site_logo'] = $this->key['existing_logo'] = $logoPath;
         }
-
-        $this->key['site_logo'] = $logoPath;
 
         foreach ($this->key as $key => $value) {
             SiteSetting::updateOrCreate(
@@ -55,6 +77,27 @@ class SiteSettingForm extends Component
         }
 
         $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'Settings updated successfully.']);
+    }
+
+    public function rules()
+    {
+        return match ($this->step) {
+            0 => [
+                'key' => 'required|array',
+                'key.site_name' => 'required|string|max:255',
+                'key.site_email' => 'required|email|max:255',
+                'key.footer_text' => 'nullable|string',
+                'site_logo' => 'nullable|image|max:2048',
+            ],
+            1 => [
+                'key' => 'required|array',
+                'key.about_us' => 'required|string',
+            ],
+            2 => [
+                'key' => 'required|array',
+                'key.term_and_condition' => 'required|string',
+            ],
+        };
     }
     public function render()
     {
