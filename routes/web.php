@@ -2,17 +2,17 @@
 
 use App\Livewire\Front\Auth\{LoginComponent};
 use App\Livewire\Front\{Dashboard};
-use Illuminate\Support\Facades\{Artisan,Route};
+use Illuminate\Support\Facades\{Artisan, Route};
 
 Route::get('/optimize', function () {
-    try{
-    Artisan::call('cache:clear');
-    Artisan::call('route:clear');
-    Artisan::call('config:clear');
-    Artisan::call('view:clear');
-    Artisan::call('route:cache');
-    Artisan::call('optimize:clear');
-    }catch(\Exception $e){
+    try {
+        Artisan::call('cache:clear');
+        Artisan::call('route:clear');
+        Artisan::call('config:clear');
+        Artisan::call('view:clear');
+        Artisan::call('route:cache');
+        Artisan::call('optimize:clear');
+    } catch (\Exception $e) {
     }
     return 'Application cache has been cleared';
 });
@@ -29,3 +29,4 @@ Route::middleware('auth.guard:web')->group(function () {
 });
 
 require __DIR__ . '/admin.php';
+require __DIR__ . '/api.php';
