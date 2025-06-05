@@ -27,8 +27,8 @@
                                 <td>{{ $parks->total() - ($parks->firstItem() + $index) + 1 }}</td>
                                 <td>{{ $park->title }}</td>
                                 <td>{{ $park->slug }}</td>
-                                <td>{{ $park->city }}</td>
-                                <td>{{ $park->state }}</td>
+                                <td>{{ $park->city->name ?? '-' }}</td>
+                                <td>{{ $park->state->name ?? '-' }}</td>
                                 <td>
                                     <button class="btn btn-sm btn-warning"
                                         wire:click="edit({{ $park->id }})">Edit</button>
@@ -90,14 +90,14 @@
                                     <!-- Country -->
                                     <div class="col-md-6">
                                         <label class="form-label">Country</label>
-                                        <select class="form-control @error('country') is-invalid @enderror"
-                                            wire:model.live="country">
+                                        <select class="form-control @error('country_id') is-invalid @enderror"
+                                            wire:model.live="country_id">
                                             <option value="">Select Country</option>
                                             @foreach ($countries as $countryId => $countryValue)
                                                 <option value="{{ $countryId }}">{{ $countryValue }}</option>
                                             @endforeach
                                         </select>
-                                        @error('country')
+                                        @error('country_id')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -105,14 +105,14 @@
                                     <!-- State -->
                                     <div class="col-md-6">
                                         <label class="form-label">State</label>
-                                        <select class="form-control @error('state') is-invalid @enderror"
-                                            wire:model.live="state">
+                                        <select class="form-control @error('state_id') is-invalid @enderror"
+                                            wire:model.live="state_id">
                                             <option value="">Select State</option>
                                             @foreach ($states as $stateId => $stateValue)
                                                 <option value="{{ $stateId }}">{{ $stateValue }}</option>
                                             @endforeach
                                         </select>
-                                        @error('state')
+                                        @error('state_id')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -120,14 +120,14 @@
                                     <!-- City -->
                                     <div class="col-md-6">
                                         <label class="form-label">City</label>
-                                        <select class="form-control @error('city') is-invalid @enderror"
-                                            wire:model="city">
+                                        <select class="form-control @error('city_id') is-invalid @enderror"
+                                            wire:model="city_id">
                                             <option value="">Select City</option>
                                             @foreach ($cities as $cityId => $cityValue)
                                                 <option value="{{ $cityId }}">{{ $cityValue }}</option>
                                             @endforeach
                                         </select>
-                                        @error('city')
+                                        @error('city_id')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

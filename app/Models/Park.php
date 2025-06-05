@@ -14,9 +14,9 @@ class Park extends Model
         'slug',
         'short_description',
         'description',
-        'city',
-        'state',
-        'country',
+        'city_id',
+        'state_id',
+        'country_id',
         'train',
         'airport',
         'safari_session',
@@ -34,5 +34,18 @@ class Park extends Model
     protected function getSlugField()
     {
         return 'slug';
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

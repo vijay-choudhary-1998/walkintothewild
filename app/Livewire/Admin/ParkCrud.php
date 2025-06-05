@@ -20,7 +20,7 @@ class ParkCrud extends Component
     public $modalTitle = 'Add', $pageTitle = 'Park';
 
     public $title, $short_description, $description,
-    $city, $state, $country, $train, $airport, $safari_session,
+    $city_id, $state_id, $country_id, $train, $airport, $safari_session,
     $wildlife_found, $safari_cost, $safari_mode, $closed_months, $park_id;
     public $showModal = false, $isEditing = false, $deleteId;
 
@@ -48,9 +48,9 @@ class ParkCrud extends Component
             'title',
             'short_description',
             'description',
-            'city',
-            'state',
-            'country',
+            'city_id',
+            'state_id',
+            'country_id',
             'train',
             'airport',
             'safari_session',
@@ -146,14 +146,14 @@ class ParkCrud extends Component
         $this->resetPage();
     }
 
-    public function updatedCountry($value)
+    public function updatedCountryId($value)
     {
         $this->states = State::where('country_id', $value)->pluck('name', 'id');
-        $this->reset('state', 'cities', 'city');
+        $this->reset('state_id', 'cities', 'city_id');
     }
-    public function updatedState($value)
+    public function updatedStateId($value)
     {
         $this->cities = City::where('state_id', $value)->pluck('name', 'id');
-        $this->reset('city');
+        $this->reset('city_id');
     }
 }
