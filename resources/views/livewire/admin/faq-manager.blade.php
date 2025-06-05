@@ -12,6 +12,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Category</th>
                         <th>Question</th>
                         <th>Answer</th>
@@ -20,8 +21,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($faqs as $faq)
+                    @foreach ($faqs as $index => $faq)
                         <tr>
+                            <td>{{ $faqs->total() - ($faqs->firstItem() + $index) + 1 }}</td>
                             <td>{{ $faq->category->name ?? '-' }}</td>
                             <td>{{ $faq->question }}</td>
                             <td>{{ Str::limit($faq->answer, 100) }}</td>

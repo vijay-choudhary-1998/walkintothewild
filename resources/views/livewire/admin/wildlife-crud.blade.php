@@ -12,6 +12,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Species</th>
                         <th>Habitat</th>
@@ -20,8 +21,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($wildlifes as $wildlife)
+                    @foreach ($wildlifes as $index => $wildlife)
                         <tr>
+                            <td>{{ $wildlifes->total() - ($wildlifes->firstItem() + $index) + 1 }}</td>
                             <td>{{ $wildlife->name }}</td>
                             <td>{{ $wildlife->species }}</td>
                             <td>{{ $wildlife->habitat }}</td>

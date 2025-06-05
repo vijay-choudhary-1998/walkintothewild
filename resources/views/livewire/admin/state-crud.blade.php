@@ -12,14 +12,16 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Country Name</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($states as $state)
+                    @foreach ($states as $index => $state)
                         <tr>
+                            <td>{{ $states->total() - ($states->firstItem() + $index) + 1 }}</td>
                             <td>{{ $state->name }}</td>
                             <td>{{ $state->country?->name ?? '-' }}</td>
                             <td>

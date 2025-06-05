@@ -12,6 +12,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Country Code</th>
                         <th>Phone Code</th>
@@ -19,8 +20,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($countries as $country)
+                    @foreach ($countries as $index => $country)
                         <tr>
+                            <td>{{ $countries->total() - ($countries->firstItem() + $index) + 1 }}</td>
                             <td>{{ $country->name }}</td>
                             <td>{{ $country->sortname ?? '-' }}</td>
                             <td>{{ $country->phonecode ?? '-' }}</td>

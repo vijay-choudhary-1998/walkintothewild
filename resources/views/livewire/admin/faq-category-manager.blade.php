@@ -12,14 +12,16 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Category</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($faqCategories as $faqCategory)
+                    @foreach ($faqCategories as $index => $faqCategory)
                         <tr>
+                            <td>{{ $faqCategories->total() - ($faqCategories->firstItem() + $index) + 1 }}</td>
                             <td>{{ $faqCategory->name }}</td>
                             <td>
                                 <button wire:click="toggleStatus({{ $faqCategory->id }})"

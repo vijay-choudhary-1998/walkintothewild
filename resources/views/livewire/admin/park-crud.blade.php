@@ -12,6 +12,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Title</th>
                         <th>Slug</th>
                         <th>City</th>
@@ -20,8 +21,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($parks as $park)
+                    @foreach ($parks as $index => $park)
                         <tr>
+                            <td>{{ $parks->total() - ($parks->firstItem() + $index) + 1 }}</td>
                             <td>{{ $park->title }}</td>
                             <td>{{ $park->slug }}</td>
                             <td>{{ $park->city }}</td>

@@ -12,6 +12,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Title</th>
                         <th>Park</th>
                         <th>Date</th>
@@ -21,8 +22,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($shareSafaries as $shareSafari)
+                    @foreach ($shareSafaries as $index => $shareSafari)
                         <tr>
+                            <td>{{ $shareSafaries->total() - ($shareSafaries->firstItem() + $index) + 1 }}</td>
                             <td>{{ $shareSafari->title }}</td>
                             <td>{{ $shareSafari->park->title ?? '-' }}</td>
                             <td>{{ $shareSafari->start_date }} → {{ $shareSafari->end_date }}</td>
