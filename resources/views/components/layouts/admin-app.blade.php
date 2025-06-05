@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dark-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/semi-dark.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/header-colors.css') }}">
+    <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/select2/css/select2-bootstrap4.css') }}" rel="stylesheet" />
     <style>
         .modal {
             overflow-y: auto !important;
@@ -67,6 +69,7 @@
 
     <script src="{{ asset('assets/js/pace.min.js') }}"></script>
     @include('components.includes.sweet-alert')
+  
 </body>
 
 </html>
