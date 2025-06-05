@@ -1,10 +1,14 @@
 <div class="container">
     <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4>{{ $pageTitle }} Management</h4>
+            <button class="btn btn-primary" wire:click="openModal">Add {{ $pageTitle }}</button>
+        </div>
         <div class="card-body">
-            <h2 class="mb-4">Park Management</h2>
-
-            <button class="btn btn-primary mb-3" wire:click="openModal">Add Park</button>
-
+            <div>
+                <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search {{ $pageTitle }}..."
+                    class="form-control mb-3 ms-auto" style="width:250px;">
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -25,7 +29,8 @@
                             <td>
                                 <button class="btn btn-sm btn-warning"
                                     wire:click="edit({{ $park->id }})">Edit</button>
-                                <button class="btn btn-sm btn-danger" wire:click="confirmDelete({{ $park->id }})">Delete</button>
+                                <button class="btn btn-sm btn-danger"
+                                    wire:click="confirmDelete({{ $park->id }})">Delete</button>
                             </td>
                         </tr>
                     @endforeach

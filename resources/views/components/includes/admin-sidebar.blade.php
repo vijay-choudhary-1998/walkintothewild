@@ -70,6 +70,20 @@
                                   </a>
                               </li>
                               <li>
+                                  <a href="{{ route('admin.faqs') }}" wire:navigate.hover>
+                                      <div class="parent-icon"><i class="bx bx-home-circle"></i>
+                                      </div>
+                                      <div class="menu-title">Faqs</div>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="{{ route('admin.faqs.category') }}" wire:navigate.hover>
+                                      <div class="parent-icon"><i class="bx bx-home-circle"></i>
+                                      </div>
+                                      <div class="menu-title">Faqs Category</div>
+                                  </a>
+                              </li>
+                              <li>
                                   <a href="{{ route('admin.settings') }}" wire:navigate.hover>
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>

@@ -15,7 +15,7 @@ class ShareSafariCrud extends Component
     use WithPagination;
     public $showModal = false, $isEditing = false, $editId, $deleteId;
     public $modalTitle = 'Add', $pageTitle = 'Share Safari';
-
+    public $search = '';
     public $step = 1;
 
     public $title, $safariPark, $start_date, $end_date, $safari_no = 1;
@@ -35,9 +35,9 @@ class ShareSafariCrud extends Component
     }
     public function render()
     {
-        return view('livewire.admin.share-safari-crud', [
-            'shareSafaries' => ShareSafari::latest()->paginate(10)
-        ]);
+        $shareSafaries = ShareSafari::where('title', 'like', "%{$this->search}%")
+            ->latest()->paginate(10);
+        return view('livewire.admin.share-safari-crud', compact('shareSafaries'));
     }
 
     public function nextStep()
@@ -105,7 +105,7 @@ class ShareSafariCrud extends Component
             'display_image' => $imagePath,
         ]);
 
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'Safari details saved successfully!']);
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Added Successfully']);
 
         $this->showModal = false;
         $this->resetFields();
@@ -143,7 +143,7 @@ class ShareSafariCrud extends Component
         $shareSafari = ShareSafari::findOrFail($this->editId);
         if (($this->display_image)) {
             $imagePath = $this->display_image->store('uploads', 'public_root');
-        }else{
+        } else {
             $imagePath = $this->previousImage;
         }
 
@@ -162,7 +162,7 @@ class ShareSafariCrud extends Component
             'safari_plan' => $this->safari_plan,
             'display_image' => $imagePath,
         ]);
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'Safari details updated successfully!']);
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Updated Successfully']);
         $this->showModal = false;
         $this->resetFields();
     }

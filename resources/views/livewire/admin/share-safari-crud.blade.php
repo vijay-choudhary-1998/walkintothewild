@@ -1,12 +1,14 @@
 <div class="container">
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h4>Share Safari Management</h4>
-            <button class="btn btn-primary" wire:click="openModal">Add Share Safari</button>
+            <h4>{{ $pageTitle }} Management</h4>
+            <button class="btn btn-primary" wire:click="openModal">Add {{ $pageTitle }}</button>
         </div>
         <div class="card-body">
-
-
+            <div>
+                <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search {{ $pageTitle }}..."
+                    class="form-control mb-3 ms-auto" style="width:250px;">
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -22,7 +24,7 @@
                     @foreach ($shareSafaries as $shareSafari)
                         <tr>
                             <td>{{ $shareSafari->title }}</td>
-                            <td>{{ $shareSafari->safari_park_id }}</td>
+                            <td>{{ $shareSafari->park->title ?? '-' }}</td>
                             <td>{{ $shareSafari->start_date }} → {{ $shareSafari->end_date }}</td>
                             <td>₹{{ $shareSafari->min_price_pp }} - ₹{{ $shareSafari->max_price_pp }}</td>
                             <td>{{ $shareSafari->total_seats }}

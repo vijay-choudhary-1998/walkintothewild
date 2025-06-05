@@ -5,7 +5,9 @@ namespace App\Livewire\Admin;
 use App\Models\Country;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use PhpParser\NodeVisitor\CommentAnnotatingVisitor;
 
 #[Layout('components.layouts.admin-app')]
 class CountryCrud extends Component
@@ -13,13 +15,35 @@ class CountryCrud extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $country_name, $country_code, $phone_code;
-    public $isEditing = false;
     public $countryId;
+    public $showModal = false, $isEditing = false, $deleteId;
+    public $modalTitle = 'Add', $pageTitle = 'Country';
+    public $search = '';
+
+    public function resetFields()
+    {
+        $this->reset([
+            'country_name',
+            'country_code',
+            'phone_code',
+            'countryId',
+            'isEditing',
+            'modalTitle'
+        ]);
+    }
     public function render()
     {
-        return view('livewire.admin.country-crud', [
-            'countries' => Country::latest()->paginate(10)
-        ]);
+        $countries = Country::where('name', 'like', "%{$this->search}%")
+            ->latest()->paginate(10);
+        return view('livewire.admin.country-crud', compact('countries'));
+    }
+
+    public function openModal()
+    {
+        $this->resetFields();
+        $this->resetValidation();
+        $this->modalTitle = 'Add ' . $this->pageTitle;
+        $this->showModal = true;
     }
     public function submit()
     {
@@ -35,26 +59,16 @@ class CountryCrud extends Component
             'phonecode' => $this->phone_code,
         ]);
 
-        $this->reset('country_name', 'country_code', 'phone_code');
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'New country added successfully.']);
+        $this->resetFields();
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Added Successfully']);
+        $this->showModal = false;
 
-    }
-
-    public function delete($id)
-    {
-        Country::destroy($id);
-        $this->reset('country_name', 'country_code', 'phone_code', 'countryId', 'isEditing');
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'Countrt deleted successfully.']);
-    }
-
-    public function updating()
-    {
-        $this->resetPage();
     }
 
     public function edit($id)
     {
-        $this->reset('country_name', 'country_code', 'phone_code', 'countryId', 'isEditing');
+        $this->resetValidation();
+        $this->resetFields();
         $country = Country::findOrFail($id);
         $this->country_name = $country->name;
         $this->country_code = $country->sortname;
@@ -62,7 +76,8 @@ class CountryCrud extends Component
 
         $this->countryId = $country->id;
         $this->isEditing = true;
-        $this->resetValidation();
+        $this->modalTitle = 'Edit ' . $this->pageTitle;
+        $this->showModal = true;
     }
 
     public function update()
@@ -73,7 +88,34 @@ class CountryCrud extends Component
             'name' => $this->country_name,
             'phonecode' => $this->phone_code,
         ]);
-        $this->reset('country_name', 'country_code', 'phone_code', 'countryId', 'isEditing');
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'Country detail has been updated successfully.']);
+        $this->resetFields();
+        $this->showModal = false;
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Updated Successfully']);
     }
+
+    public function confirmDelete($id)
+    {
+        $this->deleteId = $id;
+        $this->dispatch('swal:confirm', [
+            'title' => 'Are you sure?',
+            'text' => 'This action cannot be undone.',
+            'icon' => 'warning',
+            'showCancelButton' => true,
+            'confirmButtonText' => 'Yes, delete it!',
+            'cancelButtonText' => 'Cancel',
+            'action' => 'delete'
+        ]);
+    }
+
+    #[On('delete')]
+    public function delete()
+    {
+        Country::destroy($this->deleteId);
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' deleted successfully!']);
+    }
+    public function updating()
+    {
+        $this->resetPage();
+    }
+
 }

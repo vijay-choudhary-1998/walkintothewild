@@ -24,6 +24,6 @@ class ShareSafari extends Model
 
     public function park()
     {
-        return $this->belongsTo(Park::class);
+        return $this->belongsTo(Park::class,'safari_park_id');
     }
 }

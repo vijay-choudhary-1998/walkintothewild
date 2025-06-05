@@ -6,6 +6,7 @@ use App\Models\Country;
 use App\Models\State;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
 #[Layout('components.layouts.admin-app')]
@@ -15,18 +16,40 @@ class StateCrud extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $state_name, $country;
-    public $isEditing = false;
     public $countries;
     public $stateId;
+
+    public $showModal = false, $isEditing = false, $deleteId;
+    public $modalTitle = 'Add', $pageTitle = 'State';
+    public $search = '';
+
+    public function resetFields()
+    {
+        $this->reset([
+            'state_name',
+            'country',
+            'stateId',
+            'isEditing',
+            'modalTitle'
+        ]);
+    }
     public function mount()
     {
         $this->countries = Country::pluck('name', 'id');
     }
     public function render()
     {
-        return view('livewire.admin.state-crud', [
-            'states' => State::latest()->paginate(10)
-        ]);
+        $states = State::where('name', 'like', "%{$this->search}%")
+            ->latest()->paginate(10);
+        return view('livewire.admin.state-crud', compact('states'));
+    }
+
+    public function openModal()
+    {
+        $this->resetFields();
+        $this->resetValidation();
+        $this->modalTitle = 'Add ' . $this->pageTitle;
+        $this->showModal = true;
     }
     public function submit()
     {
@@ -40,32 +63,23 @@ class StateCrud extends Component
             'country_id' => $this->country,
         ]);
 
-        $this->reset('state_name', 'country');
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'New state added successfully.']);
-
-    }
-
-    public function delete($id)
-    {
-        State::destroy($id);
-        $this->reset('state_name', 'country', 'stateId', 'isEditing');
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'State deleted successfully.']);
-    }
-    public function updating()
-    {
-        $this->resetPage();
+        $this->resetFields();
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Added Successfully']);
+        $this->showModal = false;
     }
 
     public function edit($id)
     {
-        $this->reset('state_name', 'country', 'stateId', 'isEditing');
+        $this->resetValidation();
+        $this->resetFields();
         $state = State::findOrFail($id);
         $this->state_name = $state->name;
         $this->country = $state->country_id;
 
         $this->stateId = $state->id;
         $this->isEditing = true;
-        $this->resetValidation();
+        $this->modalTitle = 'Edit ' . $this->pageTitle;
+        $this->showModal = true;
     }
 
     public function update()
@@ -75,7 +89,33 @@ class StateCrud extends Component
             'name' => $this->state_name,
             'country_id' => $this->country,
         ]);
-        $this->reset('state_name', 'country', 'stateId', 'isEditing');
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'State detail has been updated successfully.']);
+        $this->resetFields();
+        $this->showModal = false;
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Updated Successfully']);
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->deleteId = $id;
+        $this->dispatch('swal:confirm', [
+            'title' => 'Are you sure?',
+            'text' => 'This action cannot be undone.',
+            'icon' => 'warning',
+            'showCancelButton' => true,
+            'confirmButtonText' => 'Yes, delete it!',
+            'cancelButtonText' => 'Cancel',
+            'action' => 'delete'
+        ]);
+    }
+
+    #[On('delete')]
+    public function delete()
+    {
+        State::destroy($this->deleteId);
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' deleted successfully!']);
+    }
+    public function updating()
+    {
+        $this->resetPage();
     }
 }

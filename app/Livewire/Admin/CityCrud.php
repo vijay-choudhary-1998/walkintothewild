@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\State;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
 #[Layout('components.layouts.admin-app')]
@@ -14,18 +15,40 @@ class CityCrud extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $city_name, $state;
-    public $isEditing = false;
     public $states;
     public $cityId;
+
+    public $showModal = false, $isEditing = false, $deleteId;
+    public $modalTitle = 'Add', $pageTitle = 'City';
+    public $search = '';
+
+    public function resetFields()
+    {
+        $this->reset([
+            'city_name',
+            'state',
+            'cityId',
+            'isEditing',
+            'modalTitle'
+        ]);
+    }
     public function mount()
     {
         $this->states = State::pluck('name', 'id');
     }
     public function render()
     {
-        return view('livewire.admin.city-crud', [
-            'cities' => City::latest()->paginate(10)
-        ]);
+        $cities = City::where('name', 'like', "%{$this->search}%")
+            ->latest()->paginate(10);
+        return view('livewire.admin.city-crud', compact('cities'));
+    }
+
+    public function openModal()
+    {
+        $this->resetFields();
+        $this->resetValidation();
+        $this->modalTitle = 'Add ' . $this->pageTitle;
+        $this->showModal = true;
     }
     public function submit()
     {
@@ -39,32 +62,24 @@ class CityCrud extends Component
             'state_id' => $this->state,
         ]);
 
-        $this->reset('city_name', 'state');
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'New city added successfully.']);
+        $this->resetFields();
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Added Successfully']);
+        $this->showModal = false;
 
-    }
-
-    public function delete($id)
-    {
-        City::destroy($id);
-        $this->reset('city_name', 'state', 'cityId', 'isEditing');
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'city deleted successfully.']);
-    }
-    public function updating()
-    {
-        $this->resetPage();
     }
 
     public function edit($id)
     {
-        $this->reset('city_name', 'state', 'cityId', 'isEditing');
+        $this->resetValidation();
+        $this->resetFields();
         $city = City::findOrFail($id);
         $this->city_name = $city->name;
         $this->state = $city->state_id;
 
         $this->cityId = $city->id;
         $this->isEditing = true;
-        $this->resetValidation();
+        $this->modalTitle = 'Edit ' . $this->pageTitle;
+        $this->showModal = true;
     }
 
     public function update()
@@ -74,7 +89,33 @@ class CityCrud extends Component
             'name' => $this->city_name,
             'state_id' => $this->state,
         ]);
-        $this->reset('city_name', 'state', 'cityId', 'isEditing');
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'City detail has been updated successfully.']);
+        $this->resetFields();
+        $this->showModal = false;
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Updated Successfully']);
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->deleteId = $id;
+        $this->dispatch('swal:confirm', [
+            'title' => 'Are you sure?',
+            'text' => 'This action cannot be undone.',
+            'icon' => 'warning',
+            'showCancelButton' => true,
+            'confirmButtonText' => 'Yes, delete it!',
+            'cancelButtonText' => 'Cancel',
+            'action' => 'delete'
+        ]);
+    }
+
+    #[On('delete')]
+    public function delete()
+    {
+        City::destroy($this->deleteId);
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' deleted successfully!']);
+    }
+    public function updating()
+    {
+        $this->resetPage();
     }
 }

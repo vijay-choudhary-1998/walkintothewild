@@ -14,16 +14,15 @@ class ParkCrud extends Component
 {
     use WithPagination;
 
+    public $modalTitle = 'Add', $pageTitle = 'Park';
+
     public $title, $slug, $short_description, $description,
     $city, $state, $country, $train, $airport, $safari_session,
     $wildlife_found, $safari_cost, $safari_mode, $closed_months, $park_id;
-    public $showModal = false;
-
-    public $isEditing = false;
-    public $deleteId;
-    public $modalTitle = 'Add Park';
+    public $showModal = false, $isEditing = false, $deleteId;
 
     protected $paginationTheme = 'bootstrap';
+    public $search = '';
     protected $rules = [
         'title' => 'required',
         'slug' => 'required|unique:parks,slug'
@@ -31,9 +30,9 @@ class ParkCrud extends Component
 
     public function render()
     {
-        return view('livewire.admin.park-crud', [
-            'parks' => Park::latest()->paginate(10)
-        ]);
+        $parks = Park::where('title', 'like', "%{$this->search}%")
+            ->latest()->paginate(10);
+        return view('livewire.admin.park-crud', compact('parks'));
     }
 
     public function resetFields()
@@ -62,6 +61,8 @@ class ParkCrud extends Component
     public function openModal()
     {
         $this->resetFields();
+        $this->resetValidation();
+        $this->modalTitle = 'Add ' . $this->pageTitle;
         $this->showModal = true;
     }
 
@@ -70,7 +71,7 @@ class ParkCrud extends Component
         $this->validate();
         Park::create($this->only((new Park)->getFillable()));
         $this->showModal = false;
-
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Added Successfully']);
         $this->resetFields();
     }
 
@@ -82,7 +83,7 @@ class ParkCrud extends Component
         }
         $this->park_id = $park->id;
         $this->isEditing = true;
-        $this->modalTitle = 'Edit Park';
+        $this->modalTitle = 'Edit ' . $this->pageTitle;
         $this->showModal = true;
     }
 
@@ -95,6 +96,7 @@ class ParkCrud extends Component
         $park = Park::findOrFail($this->park_id);
         $park->update($this->only($park->getFillable()));
         $this->showModal = false;
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Updated Successfully']);
         $this->resetFields();
     }
     public function confirmDelete($id)
@@ -115,7 +117,7 @@ class ParkCrud extends Component
     public function delete()
     {
         Park::destroy($this->deleteId);
-        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'Park deleted successfully!']);
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' deleted successfully!']);
     }
     public function updating()
     {
