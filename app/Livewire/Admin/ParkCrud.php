@@ -2,10 +2,13 @@
 
 namespace App\Livewire\Admin;
 
-
+use App\Models\City;
+use App\Models\Country;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Park;
+use App\Models\State;
+use App\Models\Wildlife;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 
@@ -16,18 +19,22 @@ class ParkCrud extends Component
 
     public $modalTitle = 'Add', $pageTitle = 'Park';
 
-    public $title, $slug, $short_description, $description,
+    public $title, $short_description, $description,
     $city, $state, $country, $train, $airport, $safari_session,
     $wildlife_found, $safari_cost, $safari_mode, $closed_months, $park_id;
     public $showModal = false, $isEditing = false, $deleteId;
 
     protected $paginationTheme = 'bootstrap';
     public $search = '';
+    public $countries = [], $states = [], $cities = [], $wildlives;
     protected $rules = [
         'title' => 'required',
-        'slug' => 'required|unique:parks,slug'
     ];
-
+    public function mount()
+    {
+        $this->countries = Country::pluck('name', 'id');
+        $this->wildlives = Wildlife::pluck('name', 'id');
+    }
     public function render()
     {
         $parks = Park::where('title', 'like', "%{$this->search}%")
@@ -39,7 +46,6 @@ class ParkCrud extends Component
     {
         $this->reset([
             'title',
-            'slug',
             'short_description',
             'description',
             'city',
@@ -69,6 +75,9 @@ class ParkCrud extends Component
     public function store()
     {
         $this->validate();
+        $this->closed_months = is_array($this->closed_months)
+            ? implode(',', $this->closed_months)
+            : $this->closed_months;
         Park::create($this->only((new Park)->getFillable()));
         $this->showModal = false;
         $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Added Successfully']);
@@ -79,7 +88,11 @@ class ParkCrud extends Component
     {
         $park = Park::findOrFail($id);
         foreach ($park->getFillable() as $field) {
-            $this->$field = $park->$field;
+            if ($field == 'closed_months') {
+                $this->closed_months = explode(',', $park->closed_months);
+            } else {
+                $this->$field = $park->$field;
+            }
         }
         $this->park_id = $park->id;
         $this->isEditing = true;
@@ -91,10 +104,19 @@ class ParkCrud extends Component
     {
         $this->validate([
             'title' => 'required',
-            'slug' => 'required|unique:parks,slug,' . $this->park_id
         ]);
         $park = Park::findOrFail($this->park_id);
-        $park->update($this->only($park->getFillable()));
+
+        $data = $this->only($park->getFillable());
+        $data['closed_months'] = is_array($this->closed_months)
+            ? implode(',', $this->closed_months)
+            : $this->closed_months;
+
+        unset($data['slug']);
+
+        $park->fill($data);
+        $park->save();
+
         $this->showModal = false;
         $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' Updated Successfully']);
         $this->resetFields();
@@ -122,5 +144,16 @@ class ParkCrud extends Component
     public function updating()
     {
         $this->resetPage();
+    }
+
+    public function updatedCountry($value)
+    {
+        $this->states = State::where('country_id', $value)->pluck('name', 'id');
+        $this->reset('state', 'cities', 'city');
+    }
+    public function updatedState($value)
+    {
+        $this->cities = City::where('state_id', $value)->pluck('name', 'id');
+        $this->reset('city');
     }
 }
