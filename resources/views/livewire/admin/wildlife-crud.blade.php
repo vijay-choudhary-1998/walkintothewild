@@ -9,35 +9,37 @@
                 <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search {{ $pageTitle }}..."
                     class="form-control mb-3 ms-auto" style="width:250px;">
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Species</th>
-                        <th>Habitat</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($wildlifes as $index => $wildlife)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $wildlifes->total() - ($wildlifes->firstItem() + $index) + 1 }}</td>
-                            <td>{{ $wildlife->name }}</td>
-                            <td>{{ $wildlife->species }}</td>
-                            <td>{{ $wildlife->habitat }}</td>
-                            <td>{{ $wildlife->description }}</td>
-                            <td>
-                                <button class="btn btn-sm btn-warning"
-                                    wire:click="edit({{ $wildlife->id }})">Edit</button>
-                                <button class="btn btn-sm btn-danger" wire:click="delete({{ $wildlife->id }})"
-                                    onclick="return confirm('Are you sure?')">Delete</button>
-                            </td>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Species</th>
+                            <th>Habitat</th>
+                            <th>Description</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($wildlifes as $index => $wildlife)
+                            <tr>
+                                <td>{{ $wildlifes->total() - ($wildlifes->firstItem() + $index) + 1 }}</td>
+                                <td>{{ $wildlife->name }}</td>
+                                <td>{{ $wildlife->species }}</td>
+                                <td>{{ $wildlife->habitat }}</td>
+                                <td class="description-td">{{ $wildlife->description }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning"
+                                        wire:click="edit({{ $wildlife->id }})">Edit</button>
+                                    <button class="btn btn-sm btn-danger"
+                                        wire:click="confirmDelete({{ $wildlife->id }})">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{ $wildlifes->links() }}
 
@@ -104,15 +106,15 @@
         </div>
     </div>
 </div>
-{{-- 
-@script
-    <script>
-        window.addEventListener('show-form', () => {
-            new bootstrap.Modal(document.getElementById('wildlifeModal')).show();
-        });
 
-        window.addEventListener('hide-form', () => {
-            bootstrap.Modal.getInstance(document.getElementById('wildlifeModal')).hide();
-        });
-    </script>
-@endscript --}}
+@assets
+    <style>
+        .description-td {
+            max-width: 400px;
+            min-width: 400px;
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+    </style>
+@endassets

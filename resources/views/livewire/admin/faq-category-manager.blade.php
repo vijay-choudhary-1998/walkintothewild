@@ -9,36 +9,38 @@
                 <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search {{ $pageTitle }}..."
                     class="form-control mb-3 ms-auto" style="width:250px;">
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($faqCategories as $index => $faqCategory)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $faqCategories->total() - ($faqCategories->firstItem() + $index) + 1 }}</td>
-                            <td>{{ $faqCategory->name }}</td>
-                            <td>
-                                <button wire:click="toggleStatus({{ $faqCategory->id }})"
-                                    class="btn btn-sm {{ $faqCategory->status ? 'btn-success' : 'btn-secondary' }}">
-                                    {{ $faqCategory->status ? 'Active' : 'Inactive' }}
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-warning"
-                                    wire:click="edit({{ $faqCategory->id }})">Edit</button>
-                                <button class="btn btn-sm btn-danger"
-                                    wire:click="confirmDelete({{ $faqCategory->id }})">Delete</button>
-                            </td>
+                            <th>#</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($faqCategories as $index => $faqCategory)
+                            <tr>
+                                <td>{{ $faqCategories->total() - ($faqCategories->firstItem() + $index) + 1 }}</td>
+                                <td>{{ $faqCategory->name }}</td>
+                                <td>
+                                    <button wire:click="toggleStatus({{ $faqCategory->id }})"
+                                        class="btn btn-sm {{ $faqCategory->status ? 'btn-success' : 'btn-secondary' }}">
+                                        {{ $faqCategory->status ? 'Active' : 'Inactive' }}
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning"
+                                        wire:click="edit({{ $faqCategory->id }})">Edit</button>
+                                    <button class="btn btn-sm btn-danger"
+                                        wire:click="confirmDelete({{ $faqCategory->id }})">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{ $faqCategories->links() }}
 
@@ -57,8 +59,7 @@
                                 <div class="row g-3">
                                     <div class="col-md-12">
                                         <label for="name" class="form-label">Category Name</label>
-                                        <input type="text"
-                                            class="form-control @error('name') is-invalid @enderror"
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             wire:model="name" placeholder="Enter Category Name Here...">
                                         @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>

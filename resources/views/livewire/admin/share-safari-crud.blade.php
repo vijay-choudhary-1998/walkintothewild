@@ -9,39 +9,41 @@
                 <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search {{ $pageTitle }}..."
                     class="form-control mb-3 ms-auto" style="width:250px;">
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        <th>Park</th>
-                        <th>Date</th>
-                        <th>Price (Min-Max)</th>
-                        <th>Seats</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($shareSafaries as $index => $shareSafari)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $shareSafaries->total() - ($shareSafaries->firstItem() + $index) + 1 }}</td>
-                            <td>{{ $shareSafari->title }}</td>
-                            <td>{{ $shareSafari->park->title ?? '-' }}</td>
-                            <td>{{ $shareSafari->start_date }} → {{ $shareSafari->end_date }}</td>
-                            <td>₹{{ $shareSafari->min_price_pp }} - ₹{{ $shareSafari->max_price_pp }}</td>
-                            <td>{{ $shareSafari->total_seats }}
-                                (Shared - {{ $shareSafari->share_seats }})
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-warning"
-                                    wire:click="edit({{ $shareSafari->id }})">Edit</button>
-                                <button class="btn btn-sm btn-danger"
-                                    wire:click="confirmDelete({{ $shareSafari->id }})">Delete</button>
-                            </td>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Park</th>
+                            <th>Date</th>
+                            <th>Price (Min-Max)</th>
+                            <th>Seats</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($shareSafaries as $index => $shareSafari)
+                            <tr>
+                                <td>{{ $shareSafaries->total() - ($shareSafaries->firstItem() + $index) + 1 }}</td>
+                                <td>{{ $shareSafari->title }}</td>
+                                <td>{{ $shareSafari->park->title ?? '-' }}</td>
+                                <td>{{ $shareSafari->start_date }} → {{ $shareSafari->end_date }}</td>
+                                <td>₹{{ $shareSafari->min_price_pp }} - ₹{{ $shareSafari->max_price_pp }}</td>
+                                <td>{{ $shareSafari->total_seats }}
+                                    (Shared - {{ $shareSafari->share_seats }})
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning"
+                                        wire:click="edit({{ $shareSafari->id }})">Edit</button>
+                                    <button class="btn btn-sm btn-danger"
+                                        wire:click="confirmDelete({{ $shareSafari->id }})">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{ $shareSafaries->links() }}
 

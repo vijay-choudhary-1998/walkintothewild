@@ -9,35 +9,37 @@
                 <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search {{ $pageTitle }}..."
                     class="form-control mb-3 ms-auto" style="width:250px;">
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        <th>Slug</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($parks as $index => $park)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $parks->total() - ($parks->firstItem() + $index) + 1 }}</td>
-                            <td>{{ $park->title }}</td>
-                            <td>{{ $park->slug }}</td>
-                            <td>{{ $park->city }}</td>
-                            <td>{{ $park->state }}</td>
-                            <td>
-                                <button class="btn btn-sm btn-warning"
-                                    wire:click="edit({{ $park->id }})">Edit</button>
-                                <button class="btn btn-sm btn-danger"
-                                    wire:click="confirmDelete({{ $park->id }})">Delete</button>
-                            </td>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Slug</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($parks as $index => $park)
+                            <tr>
+                                <td>{{ $parks->total() - ($parks->firstItem() + $index) + 1 }}</td>
+                                <td>{{ $park->title }}</td>
+                                <td>{{ $park->slug }}</td>
+                                <td>{{ $park->city }}</td>
+                                <td>{{ $park->state }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning"
+                                        wire:click="edit({{ $park->id }})">Edit</button>
+                                    <button class="btn btn-sm btn-danger"
+                                        wire:click="confirmDelete({{ $park->id }})">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{ $parks->links() }}
 

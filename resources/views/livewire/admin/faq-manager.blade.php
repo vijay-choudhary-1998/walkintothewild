@@ -9,40 +9,42 @@
                 <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search FAQ..."
                     class="form-control mb-3 ms-auto" style="width:250px;">
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Category</th>
-                        <th>Question</th>
-                        <th>Answer</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($faqs as $index => $faq)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $faqs->total() - ($faqs->firstItem() + $index) + 1 }}</td>
-                            <td>{{ $faq->category->name ?? '-' }}</td>
-                            <td>{{ $faq->question }}</td>
-                            <td>{{ Str::limit($faq->answer, 100) }}</td>
-                            <td>
-                                <button wire:click="toggleStatus({{ $faq->id }})"
-                                    class="btn btn-sm {{ $faq->status ? 'btn-success' : 'btn-secondary' }}">
-                                    {{ $faq->status ? 'Active' : 'Inactive' }}
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-warning"
-                                    wire:click="edit({{ $faq->id }})">Edit</button>
-                                <button class="btn btn-sm btn-danger"
-                                    wire:click="confirmDelete({{ $faq->id }})">Delete</button>
-                            </td>
+                            <th>#</th>
+                            <th>Category</th>
+                            <th>Question</th>
+                            <th>Answer</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($faqs as $index => $faq)
+                            <tr>
+                                <td>{{ $faqs->total() - ($faqs->firstItem() + $index) + 1 }}</td>
+                                <td>{{ $faq->category->name ?? '-' }}</td>
+                                <td>{{ $faq->question }}</td>
+                                <td>{{ Str::limit($faq->answer, 100) }}</td>
+                                <td>
+                                    <button wire:click="toggleStatus({{ $faq->id }})"
+                                        class="btn btn-sm {{ $faq->status ? 'btn-success' : 'btn-secondary' }}">
+                                        {{ $faq->status ? 'Active' : 'Inactive' }}
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning"
+                                        wire:click="edit({{ $faq->id }})">Edit</button>
+                                    <button class="btn btn-sm btn-danger"
+                                        wire:click="confirmDelete({{ $faq->id }})">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{ $faqs->links() }}
 
@@ -61,7 +63,7 @@
                                 <div class="row g-3">
                                     <div class="col-md-12">
                                         <label for="category_id" class="form-label">Category</label>
-                                        <select  class="form-control select2 @error('category_id') is-invalid @enderror"
+                                        <select class="form-control select2 @error('category_id') is-invalid @enderror"
                                             wire:model="category_id" id="category_id" name="category_id">
                                             <option value="">Select Category</option>
                                             @foreach ($categories as $categoryID => $categoryValue)

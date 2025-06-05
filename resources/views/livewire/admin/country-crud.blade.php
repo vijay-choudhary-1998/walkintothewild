@@ -9,33 +9,35 @@
                 <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search {{ $pageTitle }}..."
                     class="form-control mb-3 ms-auto" style="width:250px;">
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Country Code</th>
-                        <th>Phone Code</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($countries as $index => $country)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $countries->total() - ($countries->firstItem() + $index) + 1 }}</td>
-                            <td>{{ $country->name }}</td>
-                            <td>{{ $country->sortname ?? '-' }}</td>
-                            <td>{{ $country->phonecode ?? '-' }}</td>
-                            <td>
-                                <button class="btn btn-sm btn-warning"
-                                    wire:click="edit({{ $country->id }})">Edit</button>
-                                <button class="btn btn-sm btn-danger"
-                                    wire:click="confirmDelete({{ $country->id }})">Delete</button>
-                            </td>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Country Code</th>
+                            <th>Phone Code</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($countries as $index => $country)
+                            <tr>
+                                <td>{{ $countries->total() - ($countries->firstItem() + $index) + 1 }}</td>
+                                <td>{{ $country->name }}</td>
+                                <td>{{ $country->sortname ?? '-' }}</td>
+                                <td>{{ $country->phonecode ?? '-' }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning"
+                                        wire:click="edit({{ $country->id }})">Edit</button>
+                                    <button class="btn btn-sm btn-danger"
+                                        wire:click="confirmDelete({{ $country->id }})">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{ $countries->links() }}
 

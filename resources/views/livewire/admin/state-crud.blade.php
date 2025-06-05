@@ -6,34 +6,36 @@
         </div>
         <div class="card-body">
             <div>
-                <input type="text" wire:model.live.debounce.300ms="search"
-                    placeholder="Search {{ $pageTitle }}..." class="form-control mb-3 ms-auto" style="width:250px;">
+                <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search {{ $pageTitle }}..."
+                    class="form-control mb-3 ms-auto" style="width:250px;">
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Country Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($states as $index => $state)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $states->total() - ($states->firstItem() + $index) + 1 }}</td>
-                            <td>{{ $state->name }}</td>
-                            <td>{{ $state->country?->name ?? '-' }}</td>
-                            <td>
-                                <button class="btn btn-sm btn-warning"
-                                    wire:click="edit({{ $state->id }})">Edit</button>
-                                <button class="btn btn-sm btn-danger"
-                                    wire:click="confirmDelete({{ $state->id }})">Delete</button>
-                            </td>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Country Name</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($states as $index => $state)
+                            <tr>
+                                <td>{{ $states->total() - ($states->firstItem() + $index) + 1 }}</td>
+                                <td>{{ $state->name }}</td>
+                                <td>{{ $state->country?->name ?? '-' }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning"
+                                        wire:click="edit({{ $state->id }})">Edit</button>
+                                    <button class="btn btn-sm btn-danger"
+                                        wire:click="confirmDelete({{ $state->id }})">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{ $states->links() }}
 
