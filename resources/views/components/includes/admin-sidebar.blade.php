@@ -84,6 +84,13 @@
                                   </a>
                               </li>
                               <li>
+                                  <a href="{{ route('admin.contact_us') }}" wire:navigate.hover>
+                                      <div class="parent-icon"><i class="bx bx-home-circle"></i>
+                                      </div>
+                                      <div class="menu-title">Contact Us</div>
+                                  </a>
+                              </li>
+                              <li>
                                   <a href="{{ route('admin.settings') }}" wire:navigate.hover>
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>

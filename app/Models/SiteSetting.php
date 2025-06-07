@@ -10,4 +10,11 @@ class SiteSetting extends Model
         'key',
         'value',
     ];
+
+    public $timestamps = false;
+
+    public static function getValue($key, $default = '')
+    {
+        return static::where('key', $key)->value('value') ?? $default;
+    }
 }

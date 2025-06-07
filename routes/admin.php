@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Admin\Auth\{LoginComponent};
-use App\Livewire\Admin\{CityCrud, CountryCrud, Dashboard, FaqCategoryManager, FaqManager, ParkCrud, ShareSafariCrud, SiteSettingForm, StateCrud, WildlifeCrud};
+use App\Livewire\Admin\{CityCrud, ContactSettingForm, ContactUsManager, CountryCrud, Dashboard, FaqCategoryManager, FaqManager, ParkCrud, ShareSafariCrud, SiteSettingForm, StateCrud, WildlifeCrud};
 use Illuminate\Support\Facades\{Route};
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -24,6 +24,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/faqs', FaqManager::class)->name('faqs');
         Route::get('/faqs-category', FaqCategoryManager::class)->name('faqs.category');
 
+        Route::get('/contact-us', ContactSettingForm::class)->name('contact_us');
         Route::get('/settings', SiteSettingForm::class)->name('settings');
     });
 });
