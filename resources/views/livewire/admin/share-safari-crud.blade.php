@@ -160,21 +160,5 @@
             }
             $('#share_seats').html(arrshareSeatsOption);
         }
-
-        document.addEventListener('livewire:init', () => {
-            initial2()
-
-            Livewire.hook('morphed', (message, component) => {
-                initial2()
-            });
-
-            function initial2() {
-                $('#filter_park').select2({
-                    placeholder: "Select Park"
-                }).on('change', function() {
-                    @this.set('filter_park', $(this).val());
-                });
-            }
-        });
     </script>
 @endscript
