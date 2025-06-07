@@ -13,7 +13,6 @@ use Livewire\WithPagination;
 class StateCrud extends Component
 {
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
 
     public $state_name, $country;
     public $countries;

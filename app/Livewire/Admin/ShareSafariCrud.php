@@ -24,8 +24,6 @@ class ShareSafariCrud extends Component
     public $safariParks, $visitPurposes, $stayCategories;
     public $filter_park, $filter_visitPurposes, $filter_stayCategories;
 
-    protected $paginationTheme = 'bootstrap';
-
     public $uploaded_images = [];
 
     public function mount()

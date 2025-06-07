@@ -18,7 +18,6 @@ class WildlifeCrud extends Component
     public $showModal = false;
     public $modalTitle = 'Add', $pageTitle = 'Wildlife';
 
-    protected $paginationTheme = 'bootstrap';
     public $search = '';
     protected $rules = [
         'name' => 'required|string|min:3',

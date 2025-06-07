@@ -17,7 +17,6 @@ class FaqManager extends Component
     public $showModal = false, $isEditing = false, $editId, $deleteId;
     public $modalTitle = 'Add', $pageTitle = 'FAQ';
 
-    protected $paginationTheme = 'bootstrap';
     #[Validate('required|string|max:255')] public $question;
     #[Validate('required|string')] public $answer;
     #[Validate('required|exists:faq_categories,id')] public $category_id;

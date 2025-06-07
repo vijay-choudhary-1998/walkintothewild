@@ -15,8 +15,7 @@ class FaqCategoryManager extends Component
     use WithPagination;
     public $showModal = false, $isEditing = false, $editId, $deleteId;
     public $modalTitle = 'Add', $pageTitle = 'FAQ Category';
-
-    protected $paginationTheme = 'bootstrap';
+    
     #[Validate('required|string|max:255')] public $name;
 
     public $search = '';

@@ -19,7 +19,6 @@ class ParkCrud extends Component
     public $isEditing = false;
     public $modalTitle = 'Add Park';
 
-    protected $paginationTheme = 'bootstrap';
     protected $rules = [
         'title' => 'required',
         'slug' => 'required|unique:parks,slug'

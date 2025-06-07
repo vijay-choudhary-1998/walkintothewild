@@ -24,7 +24,6 @@ class ParkCrud extends Component
     $wildlife_found, $safari_cost, $safari_mode, $closed_months, $park_id;
     public $showModal = false, $isEditing = false, $deleteId;
 
-    protected $paginationTheme = 'bootstrap';
     public $search = '';
     public $countries = [], $states = [], $cities = [], $wildlives;
     public $filter_country,$filter_state,$filter_city, $filter_wildlife;

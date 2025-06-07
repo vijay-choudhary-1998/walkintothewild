@@ -13,8 +13,7 @@
     <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet">
-    <!-- loader-->
-    <link href="{{ asset('assets/css/pace.min.css') }}" rel="stylesheet">
+ 
     <!-- Bootstrap CSS -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
@@ -67,7 +66,7 @@
     <script src="{{ asset('assets/plugins/morris/js/morris.js') }}"></script>
     <script src="{{ asset('assets/js/index2.js') }}"></script>
 
-    <script src="{{ asset('assets/js/pace.min.js') }}"></script>
+
     @include('components.includes.sweet-alert')
   
 </body>

@@ -13,7 +13,6 @@ class AlbumForm extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
 
     public $showModal = false, $isEditing = false, $deleteId;
     public $modalTitle = 'Add', $pageTitle = 'Album ';

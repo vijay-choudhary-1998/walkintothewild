@@ -17,8 +17,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_visitPurposes" class="form-select select2"
-                            wire:model="filter_visitPurposes">
+                        <select id="filter_visitPurposes" class="form-select select2" wire:model="filter_visitPurposes">
                             <option value="">Select Visit Purpose</option>
                             @foreach ($visitPurposes as $visitPurposesId => $visitPurposesValue)
                                 <option value="{{ $visitPurposesId }}">{{ $visitPurposesValue }}</option>
@@ -161,5 +160,21 @@
             }
             $('#share_seats').html(arrshareSeatsOption);
         }
+
+        document.addEventListener('livewire:init', () => {
+            initial2()
+
+            Livewire.hook('morphed', (message, component) => {
+                initial2()
+            });
+
+            function initial2() {
+                $('#filter_park').select2({
+                    placeholder: "Select Park"
+                }).on('change', function() {
+                    @this.set('filter_park', $(this).val());
+                });
+            }
+        });
     </script>
 @endscript

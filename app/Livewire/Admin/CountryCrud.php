@@ -13,7 +13,6 @@ use PhpParser\NodeVisitor\CommentAnnotatingVisitor;
 class CountryCrud extends Component
 {
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
     public $country_name, $country_code, $phone_code;
     public $countryId;
     public $showModal = false, $isEditing = false, $deleteId;
