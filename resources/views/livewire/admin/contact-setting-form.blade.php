@@ -16,9 +16,21 @@
 
                 <div class="mb-3">
                     <label class="form-label">Contact Phone</label>
-                    <input type="number" class="form-control @error('contact_phone') is-invalid @enderror"
-                        step="1" wire:model="contact_phone" placeholder="Enter phone number">
+                    <input type="number" id="contact_phone"
+                        class="form-control @error('contact_phone') is-invalid @enderror" step="1"
+                        wire:model="contact_phone" placeholder="Enter phone number">
                     @error('contact_phone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Contact Whatsapp Phone <small class="cursor-pointer text-primary" onclick="getContactPhone()">same as contact
+                            phone</small></label>
+                    <input type="number" class="form-control @error('contact_whatsapp_phone') is-invalid @enderror"
+                        step="1" id="contact_whatsapp_phone" wire:model="contact_whatsapp_phone"
+                        placeholder="Enter Whatsapp Phone number">
+                    @error('contact_whatsapp_phone')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -81,13 +93,26 @@
             </div>
 
             <ul class="nav-links">
-                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('facebook_url') }}" target="_blank">Facebook</a></li>
-                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('instagram_url') }}" target="_blank">Instagram</a></li>
-                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('twitter_url') }}" target="_blank">Twitter</a></li>
-                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('youtube_url') }}" target="_blank">YouTube</a></li>
-                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('linkedin_url') }}" target="_blank">LinkedIn</a></li>
+                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('facebook_url') }}"
+                        target="_blank">Facebook</a></li>
+                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('instagram_url') }}"
+                        target="_blank">Instagram</a></li>
+                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('twitter_url') }}"
+                        target="_blank">Twitter</a></li>
+                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('youtube_url') }}"
+                        target="_blank">YouTube</a></li>
+                <li class="nav-item"><a href="{{ \App\Models\SiteSetting::getValue('linkedin_url') }}"
+                        target="_blank">LinkedIn</a></li>
             </ul>
 
         </div>
     </div>
 </div>
+@script
+    <script>
+        window.getContactPhone = function() {
+            let contactPhone = $('#contact_phone').val();
+            $('#contact_whatsapp_phone').val(contactPhone);
+        };
+    </script>
+@endscript

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\{User,Admin};
+use App\Models\{User, Admin};
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'admin@gmail.com',
         // ]);
 
-        $this->call(WildlifeSeeder::class);
+        // $this->call(WildlifeSeeder::class);
+        $this->call([
+            AlbumTagCategorySeeder::class,
+        ]);
     }
 }
