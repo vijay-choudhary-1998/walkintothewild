@@ -6,22 +6,29 @@
         <div class="card-body">
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="Search"
-                        wire:model.live.debounce.300ms="search">
-                </div>
-
-                {{-- <div class="col">
                     <div class="form-group">
-                        <select id="filter_state" class="form-select select2" wire:model.live="filter_state">
-                            <option value="">Select State</option>
-                            @foreach ($states as $stateId => $stateValue)
-                                <option value="{{ $stateId }}">{{ $stateValue }}</option>
+                        <select id="filter_category" class="form-select select2" wire:model="filter_category">
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $categoryId => $categoryValue)
+                                <option value="{{ $categoryId }}">{{ $categoryValue }}</option>
                             @endforeach
                         </select>
                     </div>
-                </div> --}}
+                </div>
 
                 <div class="col">
+                    <div class="form-group">
+                        <select id="filter_tag" class="form-select select2" wire:model="filter_tag">
+                            <option value="">Select Tag</option>
+                            @foreach ($tagsList as $tagId => $tagValue)
+                                <option value="{{ $tagId }}">{{ $tagValue }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-info text-white rounded-0 me-2"
+                        wire:click="$refresh">Apply</button>
                     <button type="button" class="btn btn-info text-white rounded-0"
                         wire:click="resetFilter">Clear</button>
                 </div>
@@ -34,6 +41,10 @@
             <button class="btn btn-primary" wire:click="openModal">Add {{ $pageTitle }}</button>
         </div>
         <div class="card-body">
+            <div>
+                <input type="text" class="form-control ms-auto mb-3" placeholder="Search"
+                    wire:model.live.debounce.300ms="search" style="max-width:200px;">
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -42,6 +53,7 @@
                             <th>Cover</th>
                             <th>Title</th>
                             <th>Category</th>
+                            <th>Tags</th>
                             <th class="text-center">Images</th>
                             <th>Actions</th>
                         </tr>
@@ -59,9 +71,11 @@
                                 </td>
                                 <td>{{ $album->title }}</td>
                                 <td>{{ $album->category->name ?? '-' }}</td>
+                                <td>{{ $album->tags->pluck('name')->implode(', ') ?? '-' }}</td>
                                 <td class="text-center">
-                                    <span class="cursor-pointer"
-                                        wire:click="viewImages({{ $album->id }})">{{ $album->images()->count() }}</span>
+                                    <span class="cursor-pointer" wire:click="viewImages({{ $album->id }})">
+                                        {{ $album->images()->count() }}
+                                    </span>
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-warning"
@@ -114,8 +128,8 @@
                                     <select class="form-control @error('category_id') is-invalid @enderror"
                                         wire:model.defer="category_id">
                                         <option value="">Select Category</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @foreach ($categories as $categoryId => $categoryValue)
+                                            <option value="{{ $categoryId }}">{{ $categoryValue }}</option>
                                         @endforeach
                                     </select>
                                     @error('category_id')
@@ -128,8 +142,8 @@
                                     <label class="form-label">Tags</label>
                                     <select multiple class="form-control @error('tags') is-invalid @enderror"
                                         wire:model.defer="tags">
-                                        @foreach ($tagsList as $tag)
-                                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                        @foreach ($tagsList as $tagId => $tagValue)
+                                            <option value="{{ $tagId }}">{{ $tagValue }}</option>
                                         @endforeach
                                     </select>
                                     @error('tags')
@@ -170,8 +184,8 @@
                                     {{ $isEditing ? 'Update' : 'Save' }}
                                     <i class="spinner-border spinner-border-sm" wire:loading></i>
                                 </button>
-                                <button type="button" class="btn btn-secondary" wire:click="$set('showModal', false)"
-                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-secondary"
+                                    wire:click="$set('showModal', false)" data-bs-dismiss="modal">Cancel</button>
                             </div>
                         </form>
                     </div>
@@ -192,7 +206,7 @@
                             <div class="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
                                 @foreach ($albumImages as $image)
                                     <div class="col">
-                                        <img src="{{asset($image)}}" alt="" class="img-fluid">
+                                        <img src="{{ asset($image) }}" alt="" class="img-fluid">
                                     </div>
                                 @endforeach
                             </div>

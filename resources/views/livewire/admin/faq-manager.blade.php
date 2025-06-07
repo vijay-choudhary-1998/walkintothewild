@@ -6,13 +6,8 @@
         <div class="card-body">
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="Search"
-                        wire:model.live.debounce.300ms="search">
-                </div>
-
-                <div class="col">
                     <div class="form-group">
-                        <select id="filter_category" class="form-select select2" wire:model.live="filter_category">
+                        <select id="filter_category" class="form-select select2" wire:model="filter_category">
                             <option value="">Select Category</option>
                             @foreach ($categories as $category_id => $category_value)
                                 <option value="{{ $category_id }}">{{ $category_value }}</option>
@@ -22,6 +17,8 @@
                 </div>
 
                 <div class="col">
+                    <button type="button" class="btn btn-info text-white rounded-0 me-2"
+                        wire:click="$refresh">Apply</button>
                     <button type="button" class="btn btn-info text-white rounded-0"
                         wire:click="resetFilter">Clear</button>
                 </div>
@@ -34,6 +31,10 @@
             <button class="btn btn-primary" wire:click="openModal">Add FAQ</button>
         </div>
         <div class="card-body">
+            <div>
+                <input type="text" class="form-control ms-auto mb-3" placeholder="Search"
+                    wire:model.live.debounce.300ms="search" style="max-width:200px;">
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>

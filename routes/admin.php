@@ -24,7 +24,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/faqs', FaqManager::class)->name('faqs');
         Route::get('/faqs-category', FaqCategoryManager::class)->name('faqs.category');
 
-        Route::get('albums', AlbumForm::class)->name('album.create');
+        Route::get('albums', AlbumForm::class)->name('albums');
 
         Route::get('/contact-us', ContactSettingForm::class)->name('contact_us');
         Route::get('/settings', SiteSettingForm::class)->name('settings');

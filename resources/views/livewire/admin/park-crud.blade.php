@@ -6,12 +6,8 @@
         <div class="card-body">
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="Search"
-                        wire:model.live.debounce.300ms="search">
-                </div>
-                <div class="col">
                     <div class="form-group">
-                        <select id="filter_wildlife" class="form-select select2" wire:model.live="filter_wildlife">
+                        <select id="filter_wildlife" class="form-select select2" wire:model="filter_wildlife">
                             <option value="">Select Wildlife</option>
                             @foreach ($wildlives as $wildlifeId => $wildlifeValue)
                                 <option value="{{ $wildlifeId }}">{{ $wildlifeValue }}</option>
@@ -21,7 +17,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_country" class="form-select select2" wire:model.live="filter_country">
+                        <select id="filter_country" class="form-select select2" wire:model="filter_country">
                             <option value="">Select Country</option>
                             @foreach ($countries as $countryId => $countryValue)
                                 <option value="{{ $countryId }}">{{ $countryValue }}</option>
@@ -31,7 +27,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_state" class="form-select select2" wire:model.live="filter_state">
+                        <select id="filter_state" class="form-select select2" wire:model="filter_state">
                             <option value="">Select State</option>
                             @foreach ($filter_states as $stateId => $stateValue)
                                 <option value="{{ $stateId }}">{{ $stateValue }}</option>
@@ -41,7 +37,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_city" class="form-select select2" wire:model.live="filter_city">
+                        <select id="filter_city" class="form-select select2" wire:model="filter_city">
                             <option value="">Select City</option>
                             @foreach ($filter_cities as $cityId => $cityValue)
                                 <option value="{{ $cityId }}">{{ $cityValue }}</option>
@@ -51,6 +47,8 @@
                 </div>
 
                 <div class="col">
+                    <button type="button" class="btn btn-info text-white rounded-0 me-2"
+                        wire:click="$refresh">Apply</button>
                     <button type="button" class="btn btn-info text-white rounded-0"
                         wire:click="resetFilter">Clear</button>
                 </div>
@@ -63,6 +61,10 @@
             <button class="btn btn-primary" wire:click="openModal">Add {{ $pageTitle }}</button>
         </div>
         <div class="card-body">
+            <div>
+                <input type="text" class="form-control ms-auto mb-3" placeholder="Search"
+                    wire:model.live.debounce.300ms="search" style="max-width:200px;">
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -188,7 +190,8 @@
                                     <!-- Train -->
                                     <div class="col-md-6">
                                         <label class="form-label">Train</label>
-                                        <input type="text" class="form-control @error('train') is-invalid @enderror"
+                                        <input type="text"
+                                            class="form-control @error('train') is-invalid @enderror"
                                             wire:model="train" placeholder="Enter nearest train station">
                                         @error('train')
                                             <div class="invalid-feedback">{{ $message }}</div>

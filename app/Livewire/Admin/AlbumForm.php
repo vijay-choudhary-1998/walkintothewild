@@ -24,20 +24,26 @@ class AlbumForm extends Component
     public $tags = [];
     public $new_images = [];
     public $categories, $tagsList;
+    public $filter_category, $filter_tag;
 
     public $viewModal = false, $albumImages = [];
 
     public function mount()
     {
-        $this->categories = AlbumCategory::all();
-        $this->tagsList = Tag::all();
+        $this->categories = AlbumCategory::pluck('name', 'id');
+        $this->tagsList = Tag::pluck('name', 'id');
     }
     public function render()
     {
         $albums = Album::with('category')->where('title', 'like', "%{$this->search}%");
 
-        if (isset($this->filter_state) && !empty($this->filter_state)) {
-            $albums->where('state_id', $this->filter_state);
+        if (isset($this->filter_category) && !empty($this->filter_category)) {
+            $albums->where('category_id', $this->filter_category);
+        }
+        if (!empty($this->filter_tag)) {
+            $albums->whereHas('tags', function ($query) {
+                $query->where('tags.id', $this->filter_tag);
+            });
         }
 
         $albums = $albums->latest()->paginate(10);
@@ -45,7 +51,7 @@ class AlbumForm extends Component
     }
     public function resetFilter()
     {
-        $this->reset(['search']);
+        $this->reset(['search', 'filter_category','filter_tag']);
     }
     public function resetFields()
     {
