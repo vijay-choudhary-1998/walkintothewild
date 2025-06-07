@@ -21,6 +21,7 @@ class CityCrud extends Component
     public $showModal = false, $isEditing = false, $deleteId;
     public $modalTitle = 'Add', $pageTitle = 'City';
     public $search = '';
+    public $filter_state;
 
     public function resetFields()
     {
@@ -38,9 +39,20 @@ class CityCrud extends Component
     }
     public function render()
     {
-        $cities = City::where('name', 'like', "%{$this->search}%")
-            ->latest()->paginate(10);
+        $cities = City::where('name', 'like', "%{$this->search}%");
+
+        if (isset($this->filter_state) && !empty($this->filter_state)) {
+            $cities->where('state_id', $this->filter_state);
+        }
+
+        $cities = $cities->latest()->paginate(10);
+
         return view('livewire.admin.city-crud', compact('cities'));
+    }
+
+    public function resetFilter()
+    {
+        $this->reset(['search', 'filter_state']);
     }
 
     public function openModal()

@@ -22,6 +22,7 @@ class ShareSafariCrud extends Component
     public $visit_purpose_id, $stay_category_id, $min_price_pp, $max_price_pp, $total_seats, $share_seats;
     public $safari_plan, $display_image, $previousImage;
     public $safariParks, $visitPurposes, $stayCategories;
+    public $filter_park, $filter_visitPurposes, $filter_stayCategories;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -35,10 +36,29 @@ class ShareSafariCrud extends Component
     }
     public function render()
     {
-        $shareSafaries = ShareSafari::where('title', 'like', "%{$this->search}%")
-            ->latest()->paginate(10);
+
+        $shareSafaries = ShareSafari::where('title', 'like', "%{$this->search}%");
+        if (isset($this->filter_park) && !empty($this->filter_park)) {
+            $shareSafaries->where('safari_park_id', $this->filter_park);
+        }
+        if (isset($this->filter_visitPurposes) && !empty($this->filter_visitPurposes)) {
+            $shareSafaries->where('visit_purpose_id', $this->filter_visitPurposes);
+        }
+        if (isset($this->filter_stayCategories) && !empty($this->filter_stayCategories)) {
+            $shareSafaries->where('stay_category_id', $this->filter_stayCategories);
+        }
+
+        $shareSafaries = $shareSafaries->latest()->paginate(10);
+
+
         return view('livewire.admin.share-safari-crud', compact('shareSafaries'));
     }
+
+    public function resetFilter()
+    {
+        $this->reset(['search', 'filter_park', 'filter_visitPurposes', 'filter_stayCategories']);
+    }
+
 
     public function nextStep()
     {

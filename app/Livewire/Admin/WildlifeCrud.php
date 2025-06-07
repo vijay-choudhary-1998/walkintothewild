@@ -34,6 +34,12 @@ class WildlifeCrud extends Component
         return view('livewire.admin.wildlife-crud', compact('wildlifes'));
     }
 
+    public function resetFilter()
+    {
+        $this->reset(['search']);
+    }
+
+
     public function resetFields()
     {
         $this->reset(['name', 'species', 'habitat', 'description', 'wildlife_id', 'isEditing', 'modalTitle']);

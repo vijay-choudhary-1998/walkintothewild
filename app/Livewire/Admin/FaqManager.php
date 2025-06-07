@@ -22,17 +22,26 @@ class FaqManager extends Component
     #[Validate('required|string')] public $answer;
     #[Validate('required|exists:faq_categories,id')] public $category_id;
     public $search = '';
-    public $categories;
+    public $categories,$filter_category;
     public function mount()
     {
         $this->categories = FaqCategory::whereStatus(1)->pluck('name', 'id');
     }
     public function render()
     {
-        $faqs = Faq::where('question', 'like', "%{$this->search}%")
-            ->latest()->paginate(10);
+        $faqs = Faq::where('question', 'like', "%{$this->search}%");
+        if (isset($this->filter_category) && !empty($this->filter_category)) {
+            $faqs->where('category_id', $this->filter_category);
+        }
+        $faqs = $faqs->latest()->paginate(10);
         return view('livewire.admin.faq-manager', compact('faqs'));
     }
+
+    public function resetFilter()
+    {
+        $this->reset(['search', 'filter_category']);
+    }
+
 
     public function openModal()
     {

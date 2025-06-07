@@ -38,6 +38,12 @@ class CountryCrud extends Component
         return view('livewire.admin.country-crud', compact('countries'));
     }
 
+    public function resetFilter()
+    {
+        $this->reset(['search']);
+    }
+
+
     public function openModal()
     {
         $this->resetFields();

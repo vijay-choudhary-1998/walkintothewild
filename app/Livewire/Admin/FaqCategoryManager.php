@@ -26,6 +26,11 @@ class FaqCategoryManager extends Component
             ->latest()->paginate(10);
         return view('livewire.admin.faq-category-manager', compact('faqCategories'));
     }
+    
+    public function resetFilter()
+    {
+        $this->reset(['search']);
+    }
 
     public function openModal()
     {
@@ -108,7 +113,8 @@ class FaqCategoryManager extends Component
 
         $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => 'Status Changed Successfully']);
     }
-    public function updating(){
+    public function updating()
+    {
         $this->resetPage();
     }
 }

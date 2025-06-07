@@ -1,21 +1,75 @@
 <div class="container">
     <div class="card">
+        <div class="card-header">
+            <h4 class="m-0">Filter</h4>
+        </div>
+        <div class="card-body">
+            <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Search"
+                        wire:model.live.debounce.300ms="search">
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <select id="filter_wildlife" class="form-select select2" wire:model.live="filter_wildlife">
+                            <option value="">Select Wildlife</option>
+                            @foreach ($wildlives as $wildlifeId => $wildlifeValue)
+                                <option value="{{ $wildlifeId }}">{{ $wildlifeValue }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <select id="filter_country" class="form-select select2" wire:model.live="filter_country">
+                            <option value="">Select Country</option>
+                            @foreach ($countries as $countryId => $countryValue)
+                                <option value="{{ $countryId }}">{{ $countryValue }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <select id="filter_state" class="form-select select2" wire:model.live="filter_state">
+                            <option value="">Select State</option>
+                            @foreach ($filter_states as $stateId => $stateValue)
+                                <option value="{{ $stateId }}">{{ $stateValue }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <select id="filter_city" class="form-select select2" wire:model.live="filter_city">
+                            <option value="">Select City</option>
+                            @foreach ($filter_cities as $cityId => $cityValue)
+                                <option value="{{ $cityId }}">{{ $cityValue }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <button type="button" class="btn btn-info text-white rounded-0"
+                        wire:click="resetFilter">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4>{{ $pageTitle }} Management</h4>
             <button class="btn btn-primary" wire:click="openModal">Add {{ $pageTitle }}</button>
         </div>
         <div class="card-body">
-            <div>
-                <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search {{ $pageTitle }}..."
-                    class="form-control mb-3 ms-auto" style="width:250px;">
-            </div>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Title</th>
-                            <th>Slug</th>
+                            <th>Wildlife</th>
                             <th>City</th>
                             <th>State</th>
                             <th>Actions</th>
@@ -26,7 +80,7 @@
                             <tr>
                                 <td>{{ $parks->total() - ($parks->firstItem() + $index) + 1 }}</td>
                                 <td>{{ $park->title }}</td>
-                                <td>{{ $park->slug }}</td>
+                                <td>{{ $park->wildlife->name ?? '-' }}</td>
                                 <td>{{ $park->city->name ?? '-' }}</td>
                                 <td>{{ $park->state->name ?? '-' }}</td>
                                 <td>

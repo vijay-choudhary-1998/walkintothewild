@@ -48,4 +48,8 @@ class Park extends Model
     {
         return $this->belongsTo(City::class);
     }
+    public function wildlife()
+    {
+        return $this->belongsTo(Wildlife::class,'wildlife_found');
+    }
 }

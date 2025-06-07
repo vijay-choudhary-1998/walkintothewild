@@ -1,14 +1,39 @@
 <div class="container">
     <div class="card">
+        <div class="card-header">
+            <h4 class="m-0">Filter</h4>
+        </div>
+        <div class="card-body">
+            <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Search"
+                        wire:model.live.debounce.300ms="search">
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <select id="filter_category" class="form-select select2" wire:model.live="filter_category">
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category_id => $category_value)
+                                <option value="{{ $category_id }}">{{ $category_value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <button type="button" class="btn btn-info text-white rounded-0"
+                        wire:click="resetFilter">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4>FAQ Management</h4>
             <button class="btn btn-primary" wire:click="openModal">Add FAQ</button>
         </div>
         <div class="card-body">
-            <div>
-                <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search FAQ..."
-                    class="form-control mb-3 ms-auto" style="width:250px;">
-            </div>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>

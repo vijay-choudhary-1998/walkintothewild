@@ -27,19 +27,39 @@ class ParkCrud extends Component
     protected $paginationTheme = 'bootstrap';
     public $search = '';
     public $countries = [], $states = [], $cities = [], $wildlives;
+    public $filter_country,$filter_state,$filter_city, $filter_wildlife;
+    public $filter_countries = [],$filter_states = [], $filter_cities = [];
+
     protected $rules = [
         'title' => 'required',
     ];
     public function mount()
     {
-        $this->countries = Country::pluck('name', 'id');
+        $this->filter_countries = $this->countries = Country::pluck('name', 'id');
         $this->wildlives = Wildlife::pluck('name', 'id');
     }
     public function render()
     {
-        $parks = Park::where('title', 'like', "%{$this->search}%")
-            ->latest()->paginate(10);
+        $parks = Park::where('title', 'like', "%{$this->search}%");
+        if (isset($this->filter_country) && !empty($this->filter_country)) {
+            $parks->where('country_id', $this->filter_country);
+        }
+        if (isset($this->filter_wildlife) && !empty($this->filter_wildlife)) {
+            $parks->where('wildlife_found', $this->filter_wildlife);
+        }
+        if (isset($this->filter_state) && !empty($this->filter_state)) {
+            $parks->where('state_id', $this->filter_state);
+        }
+        if (isset($this->filter_city) && !empty($this->filter_city)) {
+            $parks->where('city_id', $this->filter_city);
+        }
+        $parks = $parks->latest()->paginate(10);
         return view('livewire.admin.park-crud', compact('parks'));
+    }
+
+    public function resetFilter()
+    {
+        $this->reset(['search', 'filter_country','filter_state','filter_city', 'filter_wildlife']);
     }
 
     public function resetFields()
@@ -155,5 +175,15 @@ class ParkCrud extends Component
     {
         $this->cities = City::where('state_id', $value)->pluck('name', 'id');
         $this->reset('city_id');
+    }
+    public function updatedFilterCountry($value)
+    {
+        $this->filter_states = State::where('country_id', $value)->pluck('name', 'id');
+        $this->reset('filter_state', 'filter_cities', 'filter_city');
+    }
+    public function updatedFilterState($value)
+    {
+        $this->filter_cities = City::where('state_id', $value)->pluck('name', 'id');
+        $this->reset('filter_city');
     }
 }
