@@ -21,14 +21,13 @@
                     </thead>
                     <tbody>
                         @foreach ($faqCategories as $index => $faqCategory)
-                            <tr>
+                            <tr wire:key="{{ $index }}">
                                 <td>{{ $faqCategories->total() - ($faqCategories->firstItem() + $index) + 1 }}</td>
                                 <td>{{ $faqCategory->name }}</td>
                                 <td>
-                                    <button wire:click="toggleStatus({{ $faqCategory->id }})"
-                                        class="btn btn-sm {{ $faqCategory->status ? 'btn-success' : 'btn-secondary' }}">
-                                        {{ $faqCategory->status ? 'Active' : 'Inactive' }}
-                                    </button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" wire:change="toggleStatus({{ $faqCategory->id }})" @checked($faqCategory->status)>
+                                    </div>
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-warning"

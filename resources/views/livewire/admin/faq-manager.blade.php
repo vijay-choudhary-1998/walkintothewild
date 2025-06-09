@@ -7,7 +7,8 @@
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_category" class="form-select select2" wire:model="filter_category"  placeholder="Select Category">
+                        <select id="filter_category" class="form-select select2" wire:model="filter_category"
+                            placeholder="Select Category">
                             <option value="">Select Category</option>
                             @foreach ($categories as $category_id => $category_value)
                                 <option value="{{ $category_id }}">{{ $category_value }}</option>
@@ -49,16 +50,17 @@
                     </thead>
                     <tbody>
                         @foreach ($faqs as $index => $faq)
-                            <tr>
+                            <tr wire:key="{{ $index }}">
                                 <td>{{ $faqs->total() - ($faqs->firstItem() + $index) + 1 }}</td>
                                 <td>{{ $faq->category->name ?? '-' }}</td>
                                 <td>{{ $faq->question }}</td>
                                 <td>{{ Str::limit($faq->answer, 100) }}</td>
                                 <td>
-                                    <button wire:click="toggleStatus({{ $faq->id }})"
-                                        class="btn btn-sm {{ $faq->status ? 'btn-success' : 'btn-secondary' }}">
-                                        {{ $faq->status ? 'Active' : 'Inactive' }}
-                                    </button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            wire:change="toggleStatus({{ $faq->id }})"
+                                            @checked($faq->status)>
+                                    </div>
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-warning"
@@ -90,7 +92,8 @@
                                     <div class="col-md-12">
                                         <label for="category_id" class="form-label">Category</label>
                                         <select class="form-control select2 @error('category_id') is-invalid @enderror"
-                                            wire:model="category_id" id="category_id" name="category_id"  placeholder="Select Category">
+                                            wire:model="category_id" id="category_id" name="category_id"
+                                            placeholder="Select Category">
                                             <option value="">Select Category</option>
                                             @foreach ($categories as $categoryID => $categoryValue)
                                                 <option value="{{ $categoryID }}">{{ $categoryValue }}</option>
