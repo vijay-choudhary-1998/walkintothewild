@@ -7,7 +7,7 @@
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_state" class="form-select select2" wire:model="filter_state">
+                        <select id="filter_state" class="form-select select2" wire:model="filter_state"  placeholder="Select State">
                             <option value="">Select State</option>
                             @foreach ($states as $stateId => $stateValue)
                                 <option value="{{ $stateId }}">{{ $stateValue }}</option>
@@ -18,7 +18,7 @@
 
                 <div class="col">
                     <button type="button" class="btn btn-info text-white rounded-0 me-2"
-                        wire:click="$refresh">Apply</button>
+                        wire:click="applyFilter">Apply</button>
                     <button type="button" class="btn btn-info text-white rounded-0"
                         wire:click="resetFilter">Clear</button>
                 </div>
@@ -91,7 +91,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="state" class="form-label">State</label>
-                                            <select class="form-control" id="state" wire:model="state">
+                                            <select class="form-control select2" id="state" wire:model="state"  placeholder="Select State">
                                                 <option value="">Select State</option>
                                                 @foreach ($states as $stateId => $stateValue)
                                                     <option value="{{ $stateId }}">{{ $stateValue }}</option>

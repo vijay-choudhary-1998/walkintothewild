@@ -7,7 +7,7 @@
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_category" class="form-select select2" wire:model="filter_category">
+                        <select id="filter_category" class="form-select select2" wire:model="filter_category" placeholder="Select Category">
                             <option value="">Select Category</option>
                             @foreach ($categories as $categoryId => $categoryValue)
                                 <option value="{{ $categoryId }}">{{ $categoryValue }}</option>
@@ -18,7 +18,7 @@
 
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_tag" class="form-select select2" wire:model="filter_tag">
+                        <select id="filter_tag" class="form-select select2" wire:model="filter_tag"  placeholder="Select Tag">
                             <option value="">Select Tag</option>
                             @foreach ($tagsList as $tagId => $tagValue)
                                 <option value="{{ $tagId }}">{{ $tagValue }}</option>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col">
                     <button type="button" class="btn btn-info text-white rounded-0 me-2"
-                        wire:click="$refresh">Apply</button>
+                        wire:click="applyFilter">Apply</button>
                     <button type="button" class="btn btn-info text-white rounded-0"
                         wire:click="resetFilter">Clear</button>
                 </div>
@@ -106,7 +106,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Album Title</label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                        wire:model.defer="title" placeholder="Enter title">
+                                        wire:model="title" placeholder="Enter title">
                                     @error('title')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -115,7 +115,7 @@
                                 <!-- Description -->
                                 <div class="mb-3">
                                     <label class="form-label">Description</label>
-                                    <textarea class="form-control @error('description') is-invalid @enderror" wire:model.defer="description"
+                                    <textarea class="form-control @error('description') is-invalid @enderror" wire:model="description"
                                         placeholder="Enter description"></textarea>
                                     @error('description')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -125,8 +125,8 @@
                                 <!-- Category -->
                                 <div class="mb-3">
                                     <label class="form-label">Category</label>
-                                    <select class="form-control @error('category_id') is-invalid @enderror"
-                                        wire:model.defer="category_id">
+                                    <select class="form-control select2 @error('category_id') is-invalid @enderror"
+                                        wire:model="category_id" id="category_id" placeholder="Select Category">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $categoryId => $categoryValue)
                                             <option value="{{ $categoryId }}">{{ $categoryValue }}</option>
@@ -140,8 +140,8 @@
                                 <!-- Tags -->
                                 <div class="mb-3">
                                     <label class="form-label">Tags</label>
-                                    <select multiple class="form-control @error('tags') is-invalid @enderror"
-                                        wire:model.defer="tags">
+                                    <select multiple class="form-control select2 @error('tags') is-invalid @enderror"
+                                        wire:model="tags" id="tags"  placeholder="Select Tag">
                                         @foreach ($tagsList as $tagId => $tagValue)
                                             <option value="{{ $tagId }}">{{ $tagValue }}</option>
                                         @endforeach

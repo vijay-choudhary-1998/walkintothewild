@@ -27,6 +27,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('albums', AlbumForm::class)->name('albums');
 
         Route::get('/contact-us', ContactSettingForm::class)->name('contact_us');
+        Route::get('/pages', ContactSettingForm::class)->name('pages');
         Route::get('/settings', SiteSettingForm::class)->name('settings');
     });
 });

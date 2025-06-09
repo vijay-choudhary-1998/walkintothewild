@@ -7,7 +7,7 @@
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_country" class="form-select select2" wire:model="filter_country">
+                        <select id="filter_country" class="form-select select2" wire:model="filter_country" placeholder="Select Country">
                             <option value="">Select Country</option>
                             @foreach ($countries as $countryId => $countryValue)
                                 <option value="{{ $countryId }}">{{ $countryValue }}</option>
@@ -18,7 +18,7 @@
 
                 <div class="col">
                     <button type="button" class="btn btn-info text-white rounded-0 me-2"
-                        wire:click="$refresh">Apply</button>
+                        wire:click="applyFilter">Apply</button>
                     <button type="button" class="btn btn-info text-white rounded-0"
                         wire:click="resetFilter">Clear</button>
                 </div>
@@ -91,7 +91,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="country" class="form-label">Country</label>
-                                            <select class="form-control" id="country" wire:model="country">
+                                            <select class="form-control select2" id="country" wire:model="country"  placeholder="Select Country">
                                                 <option value="">Select Country</option>
                                                 @foreach ($countries as $countryId => $countryValue)
                                                     <option value="{{ $countryId }}">{{ $countryValue }}</option>

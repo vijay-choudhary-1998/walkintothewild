@@ -7,7 +7,7 @@
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_park" class="form-select select2" wire:model="filter_park">
+                        <select id="filter_park" class="form-select select2" wire:model="filter_park" placeholder="Select Park">
                             <option value="">Select Park</option>
                             @foreach ($safariParks as $parkId => $parkValue)
                                 <option value="{{ $parkId }}">{{ $parkValue }}</option>
@@ -17,7 +17,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_visitPurposes" class="form-select select2" wire:model="filter_visitPurposes">
+                        <select id="filter_visitPurposes" class="form-select select2" wire:model="filter_visitPurposes" placeholder="Select Visit Purpose">
                             <option value="">Select Visit Purpose</option>
                             @foreach ($visitPurposes as $visitPurposesId => $visitPurposesValue)
                                 <option value="{{ $visitPurposesId }}">{{ $visitPurposesValue }}</option>
@@ -28,7 +28,7 @@
                 <div class="col">
                     <div class="form-group">
                         <select id="filter_stayCategories" class="form-select select2"
-                            wire:model="filter_stayCategories">
+                            wire:model="filter_stayCategories" placeholder="Select Stay Category">
                             <option value="">Select Stay Category</option>
                             @foreach ($stayCategories as $stayCategoriesId => $stayCategoriesValue)
                                 <option value="{{ $stayCategoriesId }}">{{ $stayCategoriesValue }}</option>
@@ -39,7 +39,7 @@
 
                 <div class="col">
                     <button type="button" class="btn btn-info text-white rounded-0 me-2"
-                        wire:click="$refresh">Apply</button>
+                        wire:click="applyFilter">Apply</button>
                     <button type="button" class="btn btn-info text-white rounded-0"
                         wire:click="resetFilter">Clear</button>
                 </div>

@@ -26,8 +26,9 @@ class ParkCrud extends Component
 
     public $search = '';
     public $countries = [], $states = [], $cities = [], $wildlives;
-    public $filter_country,$filter_state,$filter_city, $filter_wildlife;
-    public $filter_countries = [],$filter_states = [], $filter_cities = [];
+    public $filter_country, $filter_state, $filter_city, $filter_wildlife;
+    public $filter_countries = [], $filter_states = [], $filter_cities = [];
+    public $filter_country_temp, $filter_wildlife_temp, $filter_state_temp, $filter_city_temp;
 
     protected $rules = [
         'title' => 'required',
@@ -40,25 +41,32 @@ class ParkCrud extends Component
     public function render()
     {
         $parks = Park::where('title', 'like', "%{$this->search}%");
-        if (isset($this->filter_country) && !empty($this->filter_country)) {
-            $parks->where('country_id', $this->filter_country);
+        if (isset($this->filter_country_temp) && !empty($this->filter_country_temp)) {
+            $parks->where('country_id', $this->filter_country_temp);
         }
-        if (isset($this->filter_wildlife) && !empty($this->filter_wildlife)) {
-            $parks->where('wildlife_found', $this->filter_wildlife);
+        if (isset($this->filter_wildlife_temp) && !empty($this->filter_wildlife_temp)) {
+            $parks->where('wildlife_found', $this->filter_wildlife_temp);
         }
-        if (isset($this->filter_state) && !empty($this->filter_state)) {
-            $parks->where('state_id', $this->filter_state);
+        if (isset($this->filter_state_temp) && !empty($this->filter_state_temp)) {
+            $parks->where('state_id', $this->filter_state_temp);
         }
-        if (isset($this->filter_city) && !empty($this->filter_city)) {
-            $parks->where('city_id', $this->filter_city);
+        if (isset($this->filter_city_temp) && !empty($this->filter_city_temp)) {
+            $parks->where('city_id', $this->filter_city_temp);
         }
         $parks = $parks->latest()->paginate(10);
         return view('livewire.admin.park-crud', compact('parks'));
     }
+    public function applyFilter()
+    {
+        $this->filter_country_temp = $this->filter_country;
+        $this->filter_wildlife_temp = $this->filter_wildlife;
+        $this->filter_state_temp = $this->filter_state;
+        $this->filter_city_temp = $this->filter_city;
 
+    }
     public function resetFilter()
     {
-        $this->reset(['search', 'filter_country','filter_state','filter_city', 'filter_wildlife']);
+        $this->reset(['search', 'filter_country', 'filter_state', 'filter_city', 'filter_wildlife', 'filter_country_temp', 'filter_wildlife_temp', 'filter_state_temp', 'filter_city_temp']);
     }
 
     public function resetFields()

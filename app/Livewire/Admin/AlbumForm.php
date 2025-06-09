@@ -23,7 +23,7 @@ class AlbumForm extends Component
     public $tags = [];
     public $new_images = [];
     public $categories, $tagsList;
-    public $filter_category, $filter_tag;
+    public $filter_category, $filter_tag, $filter_tag_temp,$filter_category_temp;
 
     public $viewModal = false, $albumImages = [];
 
@@ -36,21 +36,26 @@ class AlbumForm extends Component
     {
         $albums = Album::with('category')->where('title', 'like', "%{$this->search}%");
 
-        if (isset($this->filter_category) && !empty($this->filter_category)) {
-            $albums->where('category_id', $this->filter_category);
+        if (isset($this->filter_category_temp) && !empty($this->filter_category_temp)) {
+            $albums->where('category_id', $this->filter_category_temp);
         }
-        if (!empty($this->filter_tag)) {
+        if (!empty($this->filter_tag_temp)) {
             $albums->whereHas('tags', function ($query) {
-                $query->where('tags.id', $this->filter_tag);
+                $query->where('tags.id', $this->filter_tag_temp);
             });
         }
 
         $albums = $albums->latest()->paginate(10);
         return view('livewire.admin.album-form', compact('albums'));
     }
+    public function applyFilter()
+    {
+        $this->filter_tag_temp = $this->filter_tag;
+        $this->filter_category_temp = $this->filter_category;
+    }
     public function resetFilter()
     {
-        $this->reset(['search', 'filter_category','filter_tag']);
+        $this->reset(['search', 'filter_category', 'filter_tag', 'filter_tag_temp', 'filter_category_temp']);
     }
     public function resetFields()
     {

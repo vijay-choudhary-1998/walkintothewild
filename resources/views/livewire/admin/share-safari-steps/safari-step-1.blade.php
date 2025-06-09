@@ -9,7 +9,7 @@
 
     <div class="col-md-6">
         <label class="form-label">Safari Park <span class="text-danger">*</span></label>
-        <select wire:model="safariPark" id="safariPark" name="safariPark" class="form-select">
+        <select wire:model="safariPark" id="safariPark" name="safariPark" class="form-select select2" placeholder="Select Park">
             <option value="">-- Select Park --</option>
             @foreach ($safariParks as $id => $name)
                 <option value="{{ $id }}">{{ $name }}</option>

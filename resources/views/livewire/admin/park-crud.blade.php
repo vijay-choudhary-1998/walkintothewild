@@ -7,7 +7,7 @@
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_wildlife" class="form-select select2" wire:model="filter_wildlife">
+                        <select id="filter_wildlife" class="form-select select2" wire:model="filter_wildlife"  placeholder="Select Wildlife">
                             <option value="">Select Wildlife</option>
                             @foreach ($wildlives as $wildlifeId => $wildlifeValue)
                                 <option value="{{ $wildlifeId }}">{{ $wildlifeValue }}</option>
@@ -17,7 +17,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_country" class="form-select select2" wire:model="filter_country">
+                        <select id="filter_country" class="form-select select2" wire:model="filter_country"  placeholder="Select Country">
                             <option value="">Select Country</option>
                             @foreach ($countries as $countryId => $countryValue)
                                 <option value="{{ $countryId }}">{{ $countryValue }}</option>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_state" class="form-select select2" wire:model="filter_state">
+                        <select id="filter_state" class="form-select select2" wire:model="filter_state"  placeholder="Select State">
                             <option value="">Select State</option>
                             @foreach ($filter_states as $stateId => $stateValue)
                                 <option value="{{ $stateId }}">{{ $stateValue }}</option>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_city" class="form-select select2" wire:model="filter_city">
+                        <select id="filter_city" class="form-select select2" wire:model="filter_city"  placeholder="Select City">
                             <option value="">Select City</option>
                             @foreach ($filter_cities as $cityId => $cityValue)
                                 <option value="{{ $cityId }}">{{ $cityValue }}</option>
@@ -48,7 +48,7 @@
 
                 <div class="col">
                     <button type="button" class="btn btn-info text-white rounded-0 me-2"
-                        wire:click="$refresh">Apply</button>
+                        wire:click="applyFilter">Apply</button>
                     <button type="button" class="btn btn-info text-white rounded-0"
                         wire:click="resetFilter">Clear</button>
                 </div>
@@ -146,8 +146,8 @@
                                     <!-- Country -->
                                     <div class="col-md-6">
                                         <label class="form-label">Country</label>
-                                        <select class="form-control @error('country_id') is-invalid @enderror"
-                                            wire:model.live="country_id">
+                                        <select class="form-control select2 @error('country_id') is-invalid @enderror"
+                                            wire:model.live="country_id" id="country_id" placeholder="Select Country">
                                             <option value="">Select Country</option>
                                             @foreach ($countries as $countryId => $countryValue)
                                                 <option value="{{ $countryId }}">{{ $countryValue }}</option>
@@ -161,8 +161,8 @@
                                     <!-- State -->
                                     <div class="col-md-6">
                                         <label class="form-label">State</label>
-                                        <select class="form-control @error('state_id') is-invalid @enderror"
-                                            wire:model.live="state_id">
+                                        <select class="form-control select2 @error('state_id') is-invalid @enderror"
+                                            wire:model.live="state_id" id="state_id" placeholder="Select State">
                                             <option value="">Select State</option>
                                             @foreach ($states as $stateId => $stateValue)
                                                 <option value="{{ $stateId }}">{{ $stateValue }}</option>
@@ -176,8 +176,8 @@
                                     <!-- City -->
                                     <div class="col-md-6">
                                         <label class="form-label">City</label>
-                                        <select class="form-control @error('city_id') is-invalid @enderror"
-                                            wire:model="city_id">
+                                        <select class="form-control select2 @error('city_id') is-invalid @enderror"
+                                            wire:model="city_id" id="city_id" placeholder="Select City">
                                             <option value="">Select City</option>
                                             @foreach ($cities as $cityId => $cityValue)
                                                 <option value="{{ $cityId }}">{{ $cityValue }}</option>
@@ -223,8 +223,8 @@
                                     <!-- Wildlife Found -->
                                     <div class="col-md-6">
                                         <label class="form-label">Wildlife Found</label>
-                                        <select class="form-control @error('wildlife_found') is-invalid @enderror"
-                                            wire:model="wildlife_found">
+                                        <select class="form-control select2 @error('wildlife_found') is-invalid @enderror"
+                                            wire:model="wildlife_found" id="wildlife_found" placeholder="Select Wildlife">
                                             <option value="">Select Wildlife</option>
                                             @foreach ($wildlives as $wildlifeId => $wildlifeValue)
                                                 <option value="{{ $wildlifeId }}">{{ $wildlifeValue }}</option>
@@ -258,8 +258,8 @@
                                     </div>
 
                                     <!-- Closed Months -->
-                                    <select class="form-control @error('closed_months') is-invalid @enderror" multiple
-                                        wire:model="closed_months">
+                                    <select class="form-control select2 @error('closed_months') is-invalid @enderror" multiple
+                                        wire:model="closed_months" id="closed_months" placeholder="Select Clised Months">
                                         @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
                                             <option value="{{ $month }}">{{ $month }}</option>
                                         @endforeach

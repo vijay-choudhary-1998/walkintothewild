@@ -1,7 +1,7 @@
 <div class="row g-3">
     <div class="col-md-6">
         <label class="form-label">Purpose of Visit <span class="text-danger">*</span></label>
-        <select wire:model="visit_purpose_id" class="form-select">
+        <select wire:model="visit_purpose_id" class="form-select select2" id="visit_purpose_id" placeholder="Select Visit Purpose">
             <option value="">Select a purpose</option>
             @foreach ($visitPurposes as $id => $label)
                 <option value="{{ $id }}">{{ $label }}</option>
@@ -14,7 +14,7 @@
 
     <div class="col-md-6">
         <label class="form-label">Stay Category <span class="text-danger">*</span></label>
-        <select wire:model="stay_category_id" class="form-select">
+        <select wire:model="stay_category_id" class="form-select select2" id="stay_category_id" placeholder="Select Staty Category">
             <option value="">Select a category</option>
             @foreach ($stayCategories as $id => $label)
                 <option value="{{ $id }}">{{ $label }}</option>
@@ -44,7 +44,7 @@
 
     <div class="col-md-6">
         <label class="form-label">Total Seats <span class="text-danger">*</span></label>
-        <input type="number" name="total_seats" id="total_seats" wire:model="total_seats"
+        <input type="number" name="total_seats" id="total_seats" wire:model.live="total_seats"
             oninput="totalSeatsChange(this)" min="1" step="1" class="form-control"
             placeholder="Total Seats">
         @error('total_seats')
@@ -54,13 +54,13 @@
 
     <div class="col-md-6">
         <label class="form-label">Share Seats <span class="text-danger">*</span></label>
-        <select name="share_seats" id="share_seats" class="form-select" wire:model="share_seats" class="form-select">
+        <select name="share_seats" id="share_seats" class="form-select select2" wire:model="share_seats" placeholder="Select Share Seats">
             <option value="">Select</option>
-            @if ($isEditing)
+            {{-- @if ($isEditing) --}}
             @for ($i = 1; $i < $total_seats; $i++)
-                <option value="{{$i}}">{{$i}}</option>
+                <option value="{{$i}}" @selected($i == $share_seats)>{{$i}}</option>
             @endfor
-            @endif
+            {{-- @endif --}}
         </select>
         @error('share_seats')
             <small class="text-danger">{{ $message }}</small>

@@ -98,6 +98,13 @@
                                   </a>
                               </li>
                               <li>
+                                  <a href="{{ route('admin.pages') }}" wire:navigate.hover>
+                                      <div class="parent-icon"><i class="bx bx-home-circle"></i>
+                                      </div>
+                                      <div class="menu-title">Pages</div>
+                                  </a>
+                              </li>
+                              <li>
                                   <a href="{{ route('admin.settings') }}" wire:navigate.hover>
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>

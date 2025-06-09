@@ -21,7 +21,7 @@ class StateCrud extends Component
     public $showModal = false, $isEditing = false, $deleteId;
     public $modalTitle = 'Add', $pageTitle = 'State';
     public $search = '';
-    public $filter_country;
+    public $filter_country,$filter_country_temp;
 
     public function resetFields()
     {
@@ -40,15 +40,19 @@ class StateCrud extends Component
     public function render()
     {
         $states = State::where('name', 'like', "%{$this->search}%");
-        if (isset($this->filter_country) && !empty($this->filter_country)) {
-            $states->where('country_id', $this->filter_country);
+        if (isset($this->filter_country_temp) && !empty($this->filter_country_temp)) {
+            $states->where('country_id', $this->filter_country_temp);
         }
         $states = $states->latest()->paginate(10);
         return view('livewire.admin.state-crud', compact('states'));
     }
+    public function applyFilter()
+    {
+        $this->filter_country_temp = $this->filter_country;
+    }
     public function resetFilter()
     {
-        $this->reset(['search', 'filter_country']);
+        $this->reset(['search', 'filter_country','filter_country_temp']);
     }
 
     public function openModal()

@@ -15,7 +15,7 @@ class FaqCategoryManager extends Component
     use WithPagination;
     public $showModal = false, $isEditing = false, $editId, $deleteId;
     public $modalTitle = 'Add', $pageTitle = 'FAQ Category';
-    
+
     #[Validate('required|string|max:255')] public $name;
 
     public $search = '';
@@ -25,7 +25,6 @@ class FaqCategoryManager extends Component
             ->latest()->paginate(10);
         return view('livewire.admin.faq-category-manager', compact('faqCategories'));
     }
-    
     public function resetFilter()
     {
         $this->reset(['search']);

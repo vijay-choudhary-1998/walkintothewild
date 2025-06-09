@@ -23,7 +23,7 @@ class ShareSafariCrud extends Component
     public $safari_plan, $display_image, $previousImage;
     public $safariParks, $visitPurposes, $stayCategories;
     public $filter_park, $filter_visitPurposes, $filter_stayCategories;
-
+    public $filter_park_temp, $filter_visitPurposes_temp, $filter_stayCategories_temp;
     public $uploaded_images = [];
 
     public function mount()
@@ -36,14 +36,14 @@ class ShareSafariCrud extends Component
     {
 
         $shareSafaries = ShareSafari::where('title', 'like', "%{$this->search}%");
-        if (isset($this->filter_park) && !empty($this->filter_park)) {
-            $shareSafaries->where('safari_park_id', $this->filter_park);
+        if (isset($this->filter_park_temp) && !empty($this->filter_park_temp)) {
+            $shareSafaries->where('safari_park_id', $this->filter_park_temp);
         }
-        if (isset($this->filter_visitPurposes) && !empty($this->filter_visitPurposes)) {
-            $shareSafaries->where('visit_purpose_id', $this->filter_visitPurposes);
+        if (isset($this->filter_visitPurposes_temp) && !empty($this->filter_visitPurposes_temp)) {
+            $shareSafaries->where('visit_purpose_id', $this->filter_visitPurposes_temp);
         }
-        if (isset($this->filter_stayCategories) && !empty($this->filter_stayCategories)) {
-            $shareSafaries->where('stay_category_id', $this->filter_stayCategories);
+        if (isset($this->filter_stayCategories_temp) && !empty($this->filter_stayCategories_temp)) {
+            $shareSafaries->where('stay_category_id', $this->filter_stayCategories_temp);
         }
 
         $shareSafaries = $shareSafaries->latest()->paginate(10);
@@ -51,10 +51,15 @@ class ShareSafariCrud extends Component
 
         return view('livewire.admin.share-safari-crud', compact('shareSafaries'));
     }
-
+    public function applyFilter()
+    {
+        $this->filter_park_temp = $this->filter_park;
+        $this->filter_visitPurposes_temp = $this->filter_visitPurposes;
+        $this->filter_stayCategories_temp = $this->filter_stayCategories;
+    }
     public function resetFilter()
     {
-        $this->reset(['search', 'filter_park', 'filter_visitPurposes', 'filter_stayCategories']);
+        $this->reset(['search', 'filter_park', 'filter_visitPurposes', 'filter_stayCategories', 'filter_park_temp', 'filter_visitPurposes_temp', 'filter_stayCategories_temp']);
     }
 
 
