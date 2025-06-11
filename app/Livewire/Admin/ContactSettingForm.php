@@ -50,6 +50,7 @@ class ContactSettingForm extends Component
             SiteSetting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
-        session()->flash('success', 'Contact settings updated successfully!');
+        $this->dispatch('swal:toast', ['type' => 'success', 'title' => '', 'message' => $this->pageTitle . ' updated Successfully']);
+
     }
 }

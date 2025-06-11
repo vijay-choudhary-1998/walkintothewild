@@ -1,7 +1,8 @@
 <?php
 
 use App\Livewire\Admin\Auth\{LoginComponent};
-use App\Livewire\Admin\{AlbumForm, AlbumList, CityCrud, ContactSettingForm, ContactUsManager, CountryCrud, Dashboard, FaqCategoryManager, FaqManager, ParkCrud, ShareSafariCrud, SiteSettingForm, StateCrud, WildlifeCrud};
+use App\Livewire\Admin\{AlbumForm, CityCrud, ContactSettingForm, CountryCrud, Dashboard, FaqCategoryManager, FaqManager, ParkCrud, ShareSafariCrud, SiteSettingForm, StateCrud, WildlifeCrud};
+use App\Livewire\Admin\Pages\{AboutUs, PrivacyPolicy, RefundPolicy, TermsAndConditions};
 use Illuminate\Support\Facades\{Route};
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -27,7 +28,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('albums', AlbumForm::class)->name('albums');
 
         Route::get('/contact-us', ContactSettingForm::class)->name('contact_us');
-        Route::get('/pages', ContactSettingForm::class)->name('pages');
+        Route::get('/about-us', AboutUs::class)->name('about_us');
+        Route::get('/privacy-policy', PrivacyPolicy::class)->name('privacy_policy');
+        Route::get('/refund-policy', RefundPolicy::class)->name('refund_policy');
+        Route::get('/terms-and-conditions', TermsAndConditions::class)->name('terms_and_conditions');
+
         Route::get('/settings', SiteSettingForm::class)->name('settings');
     });
 });

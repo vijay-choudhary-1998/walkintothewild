@@ -218,7 +218,7 @@ a {
 	padding: 8px 15px 8px 45px
 }
 
-.sidebar-wrapper .metismenu .mm-active>a,
+.sidebar-wrapper .metismenu a.mm-active,
 .sidebar-wrapper .metismenu a:active,
 .sidebar-wrapper .metismenu a:focus,
 .sidebar-wrapper .metismenu a:hover {

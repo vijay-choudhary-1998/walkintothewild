@@ -32,6 +32,18 @@ class ParkCrud extends Component
 
     protected $rules = [
         'title' => 'required',
+        'short_description' => 'required',
+        'description' => 'required',
+        'city_id' => 'required',
+        'state_id' => 'required',
+        'country_id' => 'required',
+        'train' => 'required',
+        'airport' => 'required',
+        'safari_session' => 'required',
+        'wildlife_found' => 'required',
+        'safari_cost' => 'required',
+        'safari_mode' => 'required',
+        'closed_months' => 'required',
     ];
     public function mount()
     {

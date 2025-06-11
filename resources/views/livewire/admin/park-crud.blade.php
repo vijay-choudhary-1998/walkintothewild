@@ -7,7 +7,8 @@
             <div class="row g-1 g-md-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6">
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_wildlife" class="form-select select2" wire:model="filter_wildlife"  placeholder="Select Wildlife">
+                        <select id="filter_wildlife" class="form-select select2" wire:model="filter_wildlife"
+                            placeholder="Select Wildlife">
                             <option value="">Select Wildlife</option>
                             @foreach ($wildlives as $wildlifeId => $wildlifeValue)
                                 <option value="{{ $wildlifeId }}">{{ $wildlifeValue }}</option>
@@ -17,7 +18,8 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_country" class="form-select select2" wire:model="filter_country"  placeholder="Select Country">
+                        <select id="filter_country" class="form-select select2" wire:model="filter_country"
+                            placeholder="Select Country">
                             <option value="">Select Country</option>
                             @foreach ($countries as $countryId => $countryValue)
                                 <option value="{{ $countryId }}">{{ $countryValue }}</option>
@@ -27,7 +29,8 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_state" class="form-select select2" wire:model="filter_state"  placeholder="Select State">
+                        <select id="filter_state" class="form-select select2" wire:model="filter_state"
+                            placeholder="Select State">
                             <option value="">Select State</option>
                             @foreach ($filter_states as $stateId => $stateValue)
                                 <option value="{{ $stateId }}">{{ $stateValue }}</option>
@@ -37,7 +40,8 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <select id="filter_city" class="form-select select2" wire:model="filter_city"  placeholder="Select City">
+                        <select id="filter_city" class="form-select select2" wire:model="filter_city"
+                            placeholder="Select City">
                             <option value="">Select City</option>
                             @foreach ($filter_cities as $cityId => $cityValue)
                                 <option value="{{ $cityId }}">{{ $cityValue }}</option>
@@ -223,8 +227,10 @@
                                     <!-- Wildlife Found -->
                                     <div class="col-md-6">
                                         <label class="form-label">Wildlife Found</label>
-                                        <select class="form-control select2 @error('wildlife_found') is-invalid @enderror"
-                                            wire:model="wildlife_found" id="wildlife_found" placeholder="Select Wildlife">
+                                        <select
+                                            class="form-control select2 @error('wildlife_found') is-invalid @enderror"
+                                            wire:model="wildlife_found" id="wildlife_found"
+                                            placeholder="Select Wildlife">
                                             <option value="">Select Wildlife</option>
                                             @foreach ($wildlives as $wildlifeId => $wildlifeValue)
                                                 <option value="{{ $wildlifeId }}">{{ $wildlifeValue }}</option>
@@ -257,13 +263,22 @@
                                         @enderror
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <label for="closed_months" class="form-label">Closed Months</label>
+                                        <select class="form-control select2 @error('closed_months') is-invalid @enderror"
+                                            multiple wire:model="closed_months" id="closed_months"
+                                            placeholder="Select Clised Months">
+                                            @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
+                                                <option value="{{ $month }}">{{ $month }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('closed_months')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
                                     <!-- Closed Months -->
-                                    <select class="form-control select2 @error('closed_months') is-invalid @enderror" multiple
-                                        wire:model="closed_months" id="closed_months" placeholder="Select Clised Months">
-                                        @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
-                                            <option value="{{ $month }}">{{ $month }}</option>
-                                        @endforeach
-                                    </select>
+
                                 </div>
                             </div>
                             <div class="modal-footer">

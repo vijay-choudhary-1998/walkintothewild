@@ -51,8 +51,8 @@
             z-index: 999999 !important;
         }
     </style>
-    @include('components.includes.sweet-alert')
     @livewireStyles
+    @stack('styles')
 
 </head>
 
@@ -70,7 +70,6 @@
     @include('components.includes.admin-footer')
 
     @livewireScripts
-
 
     <!---------------|| Js Files ||--------------->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -97,58 +96,10 @@
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script data-navigate-once>
-        document.addEventListener("livewire:navigated", function() {
-            $('select.select2').each(function() {
-                const selectId = $(this).attr('id');
-                const placeholder = $(this).attr('placeholder') || 'Select an option';
+    @include('components.includes.sweet-alert')
+    @include('components.includes.select2')
 
-                $(this).select2({
-                    placeholder
-                }).on('change', function() {
-                    const value = $(this).val();
-                    const component = Livewire.first(); 
-                    if (component) {
-                        component.set(selectId, value);
-                    }
-                });
-            });
-        });
-        document.addEventListener('livewire:init', () => {
-            $('select.select2').each(function() {
-                const selectId = $(this).attr('id');
-                const placeholder = $(this).attr('placeholder') || 'Select an option';
-
-                $(this).select2({
-                    placeholder
-                }).on('change', function() {
-                    const value = $(this).val();
-                    const component = Livewire.first();
-                    if (component) {
-                        component.set(selectId, value);
-                    }
-                });
-            });
-        });
-
-        Livewire.hook('morphed', (message, component) => {
-            $('select.select2').each(function() {
-                const selectId = $(this).attr('id');
-                const placeholder = $(this).attr('placeholder') || 'Select an option';
-
-                $(this).select2({
-                    placeholder
-                }).on('change', function() {
-                    const value = $(this).val();
-                    const component = Livewire.first();
-                    if (component) {
-                        component.set(selectId, value);
-                    }
-                });
-            });
-        });
-    </script>
-
+    @stack('scripts')
 </body>
 
 </html>

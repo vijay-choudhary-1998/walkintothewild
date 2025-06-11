@@ -21,91 +21,112 @@
                           <!--navigation-->
                           <ul class="metismenu mm-show" id="menu">
                               <li>
-                                  <a href="{{ route('admin.dashboard') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.dashboard') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Dashboard</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.park') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.park') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Park</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.wildlife') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.wildlife') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">WildLife</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.share.safari') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.share.safari') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Share Safari</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.city') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.city') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">City</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.state') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.state') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">State</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.country') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.country') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Country</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.faqs') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.faqs') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Faqs</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.faqs.category') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.faqs.category') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Faqs Category</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.albums') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.albums') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Albums</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.contact_us') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.contact_us') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Contact Us</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.pages') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.about_us') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
-                                      <div class="menu-title">Pages</div>
+                                      <div class="menu-title">About Us</div>
                                   </a>
                               </li>
                               <li>
-                                  <a href="{{ route('admin.settings') }}" wire:navigate.hover>
+                                  <a href="{{ route('admin.privacy_policy') }}" wire:navigate wire:current="mm-active">
+                                      <div class="parent-icon"><i class="bx bx-home-circle"></i>
+                                      </div>
+                                      <div class="menu-title">Privacy Policy</div>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="{{ route('admin.refund_policy') }}" wire:navigate wire:current="mm-active">
+                                      <div class="parent-icon"><i class="bx bx-home-circle"></i>
+                                      </div>
+                                      <div class="menu-title">Refund Policy</div>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="{{ route('admin.terms_and_conditions') }}" wire:navigate wire:current="mm-active">
+                                      <div class="parent-icon"><i class="bx bx-home-circle"></i>
+                                      </div>
+                                      <div class="menu-title">Terms and Conditions</div>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="{{ route('admin.settings') }}" wire:navigate wire:current="mm-active">
                                       <div class="parent-icon"><i class="bx bx-home-circle"></i>
                                       </div>
                                       <div class="menu-title">Site Settings</div>
