@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin;
 
+use App\Helpers\ImageHelper;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\SiteSetting;
+use App\Models\Upload;
 use Livewire\Attributes\Layout;
 
 #[Layout('components.layouts.admin-app')]
@@ -59,7 +61,19 @@ class SiteSettingForm extends Component
         if ($this->step == 0) {
 
             if (($this->site_logo)) {
-                $logoPath = $this->site_logo->store('uploads/site-logos', 'public_root');
+                $image = $this->site_logo;
+                $path = 'uploads/site-logos';
+                $origPath = $image->store($path, 'public_root');
+
+                $avifPath = '';
+                $avifPath = ImageHelper::convertToAvif($origPath, $path);
+
+                $upload = Upload::create([
+                    'original_name' => $image->getClientOriginalName(),
+                    'avif_path' => $avifPath,
+                ]);
+
+                $logoPath = $avifPath;
             } else {
                 $logoPath = $this->key['existing_logo'];
             }
@@ -87,7 +101,7 @@ class SiteSettingForm extends Component
                 'key.site_name' => 'required|string|max:255',
                 'key.site_email' => 'required|email|max:255',
                 'key.footer_text' => 'nullable|string',
-                'site_logo' => 'nullable|image|max:2048',
+                'site_logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             ],
             1 => [
                 'key' => 'required|array',

@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\{Park, ShareSafari, StayCategory, VisitPurpose};
+use App\Helpers\ImageHelper;
+use App\Models\{Park, ShareSafari, StayCategory, Upload, VisitPurpose};
 use Livewire\Attributes\{Layout, On};
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -110,7 +111,20 @@ class ShareSafariCrud extends Component
     {
         $this->validate($this->rules());
 
-        $imagePath = $this->display_image->store('uploads', 'public_root');
+        $image = $this->display_image;
+        $path = 'uploads/sharesafarie';
+        $origPath = $image->store($path, 'public_root');
+
+        $avifPath = '';
+        $avifPath = ImageHelper::convertToAvif($origPath, $path);
+
+        $upload = Upload::create([
+            'original_name' => $image->getClientOriginalName(),
+            'avif_path' => $avifPath,
+        ]);
+
+        $imagePath = $avifPath;
+
 
         ShareSafari::create([
             'title' => $this->title,
@@ -165,7 +179,19 @@ class ShareSafariCrud extends Component
 
         $shareSafari = ShareSafari::findOrFail($this->editId);
         if (($this->display_image)) {
-            $imagePath = $this->display_image->store('uploads', 'public_root');
+            $image = $this->display_image;
+            $path = 'uploads/sharesafarie';
+            $origPath = $image->store($path, 'public_root');
+
+            $avifPath = '';
+            $avifPath = ImageHelper::convertToAvif($origPath, $path);
+
+            $upload = Upload::create([
+                'original_name' => $image->getClientOriginalName(),
+                'avif_path' => $avifPath,
+            ]);
+
+            $imagePath = $avifPath;
         } else {
             $imagePath = $this->previousImage;
         }
@@ -234,7 +260,7 @@ class ShareSafariCrud extends Component
             ],
             3 => [
                 'safari_plan' => 'required|string',
-                'display_image' => ($this->editId && !empty($this->previousImage)) ? 'nullable|image|max:2048' : 'required|image|max:2048',
+                'display_image' => ($this->editId && !empty($this->previousImage)) ? 'nullable||image|mimes:jpg,jpeg,png,webp|max:2048' : 'required||image|mimes:jpg,jpeg,png,webp|max:2048',
             ],
         };
     }

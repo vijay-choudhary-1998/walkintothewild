@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title ?? 'Walk into the Wild' }}</title>
+    <title>{{ $title ?? 'SafariMeet' }}</title>
     <!--favicon-->
     <link rel="icon" href="{{ asset('assets/images/WLogoLightgreen.svg') }}" type="image/png">
     <!--plugins-->

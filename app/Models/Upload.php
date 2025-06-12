@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Upload extends Model
 {
-    protected $fillable = ['path'];
+    protected $fillable = [
+        'original_name',
+        'avif_path'
+    ];
 }

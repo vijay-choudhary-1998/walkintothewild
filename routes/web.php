@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Components\ImageUploader;
 use App\Livewire\Front\Auth\{LoginComponent};
 use App\Livewire\Front\{Dashboard};
 use Illuminate\Support\Facades\{Artisan, Route};
@@ -27,6 +28,7 @@ Route::middleware('auth.guard:web')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('logout', [LoginComponent::class, 'logout'])->name('logout');
 });
+Route::get('avif', ImageUploader::class)->name('avif');
 
 require __DIR__ . '/admin.php';
 require __DIR__ . '/api.php';

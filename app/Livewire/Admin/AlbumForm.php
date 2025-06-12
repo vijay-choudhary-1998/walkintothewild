@@ -1,9 +1,10 @@
 <?php
 namespace App\Livewire\Admin;
 
+use App\Helpers\ImageHelper;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\{Album, AlbumCategory, Tag, AlbumImage};
+use App\Models\{Album, AlbumCategory, Tag, AlbumImage, Upload};
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
@@ -23,7 +24,7 @@ class AlbumForm extends Component
     public $tags = [];
     public $new_images = [];
     public $categories, $tagsList;
-    public $filter_category, $filter_tag, $filter_tag_temp,$filter_category_temp;
+    public $filter_category, $filter_tag, $filter_tag_temp, $filter_category_temp;
 
     public $viewModal = false, $albumImages = [];
 
@@ -87,8 +88,8 @@ class AlbumForm extends Component
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'nullable|exists:album_categories,id',
-            'cover_image' => 'nullable|image|max:2048',
-            'new_images.*' => 'nullable|image|max:2048',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'new_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $data = [
@@ -98,7 +99,20 @@ class AlbumForm extends Component
         ];
 
         if ($this->cover_image) {
-            $data['cover_image'] = $this->cover_image->store('albums/covers', 'public_root');
+            $image = $this->cover_image;
+            $path = 'uploads/albums/covers';
+            $origPath = $image->store($path, 'public_root');
+
+            $avifPath = '';
+            $avifPath = ImageHelper::convertToAvif($origPath, $path);
+
+            $upload = Upload::create([
+                'original_name' => $image->getClientOriginalName(),
+                'avif_path' => $avifPath,
+            ]);
+
+            $data['cover_image'] = $avifPath;
+
         } elseif ($this->existingCover) {
             $data['cover_image'] = $this->existingCover;
         }
@@ -108,9 +122,24 @@ class AlbumForm extends Component
         $album->tags()->sync($this->tags);
 
         foreach ($this->new_images as $img) {
+
+            $image = $img;
+            $path = 'uploads/albums/gallery';
+            $origPath = $image->store($path, 'public_root');
+
+            $avifPath = '';
+            $avifPath = ImageHelper::convertToAvif($origPath, $path);
+
+            $upload = Upload::create([
+                'original_name' => $image->getClientOriginalName(),
+                'avif_path' => $avifPath,
+            ]);
+
+            $imagPath = $avifPath;
+
             AlbumImage::create([
                 'album_id' => $album->id,
-                'image_path' => $img->store('albums/gallery', 'public_root'),
+                'image_path' => $imagPath,
             ]);
         }
 
@@ -144,8 +173,8 @@ class AlbumForm extends Component
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'nullable|exists:album_categories,id',
-            'cover_image' => 'nullable|image|max:2048',
-            'new_images.*' => 'nullable|image|max:2048',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'new_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $data = [
@@ -155,7 +184,19 @@ class AlbumForm extends Component
         ];
 
         if ($this->cover_image) {
-            $data['cover_image'] = $this->cover_image->store('albums/covers', 'public_root');
+            $image = $this->cover_image;
+            $path = 'uploads/albums/covers';
+            $origPath = $image->store($path, 'public_root');
+
+            $avifPath = '';
+            $avifPath = ImageHelper::convertToAvif($origPath, $path);
+
+            $upload = Upload::create([
+                'original_name' => $image->getClientOriginalName(),
+                'avif_path' => $avifPath,
+            ]);
+
+            $data['cover_image'] = $avifPath;
         } elseif ($this->existingCover) {
             $data['cover_image'] = $this->existingCover;
         }
@@ -164,10 +205,26 @@ class AlbumForm extends Component
 
         $album->tags()->sync($this->tags);
 
+        AlbumImage::where('album_id' , $album->id)->delete();
+
         foreach ($this->new_images as $img) {
+            $image = $img;
+            $path = 'uploads/albums/gallery';
+            $origPath = $image->store($path, 'public_root');
+
+            $avifPath = '';
+            $avifPath = ImageHelper::convertToAvif($origPath, $path);
+
+            $upload = Upload::create([
+                'original_name' => $image->getClientOriginalName(),
+                'avif_path' => $avifPath,
+            ]);
+
+            $imagPath = $avifPath;
+
             AlbumImage::create([
                 'album_id' => $album->id,
-                'image_path' => $img->store('albums/gallery', 'public_root'),
+                'image_path' => $imagPath,
             ]);
         }
 
